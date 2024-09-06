@@ -1,6 +1,6 @@
 # sbom-admission-policy-demo
 
-A demo repo to showcase how Gatekeeper/Ratify can be used in conjunction with the Snyk SBOM CLI tools to ensure only images with valid SBOMs are deployed to your kubernetes environment
+A demo of how Gatekeeper/Ratify can be used in conjunction with the Snyk SBOM CLI tools to ensure only images with valid SBOM and Snyk SBOM vulnerability scans are deployed to your kubernetes environment
 
 ## What is Ratify
 
@@ -16,7 +16,14 @@ Every organization has policies. Some are essential to meet governance and legal
 
 Kubernetes allows decoupling policy decisions from the inner workings of the API Server by means of admission controller webhooks, which are executed whenever a resource is created, updated or deleted. Gatekeeper is a validating and mutating webhook that enforces CRD-based policies executed by Open Policy Agent, a policy engine for Cloud Native environments hosted by CNCF as a graduated project.
 
+![gatekeeper/ratify diagram ref:https://techcommunity.microsoft.com/t5/microsoft-developer-community/use-ratify-to-prevent-non-compliant-container-images-from/ba-p/4008730 ](image.png)
+
 ### Prerequisites
+
+ORAS - https://oras.land/docs/category/oras-commands/
+KIND - 
+KUBECTL - 
+SNYK - 
 
 ### Usage
 
