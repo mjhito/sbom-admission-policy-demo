@@ -16,7 +16,6 @@ function print_usage {
 
 ## Deploy kind with no CNI and ingress ports mappings / node-labels
 
-# shellcheck source=./scripts/kind-ingress.yaml
 kind create cluster --name "$CLUSTER_NAME" --config ./manifests/kind-ingress.yaml --silent
 echo "creating kind cluster"
 
