@@ -20,6 +20,11 @@ Kubernetes allows decoupling policy decisions from the inner workings of the API
 
 ### Prerequisites
 
+ORAS - https://oras.land/docs/category/oras-commands/
+KIND - 
+KUBECTL - 
+SNYK - 
+
 ### Usage
 
 ### Limitations

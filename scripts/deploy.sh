@@ -2,14 +2,23 @@
 set -eou pipefail
 IFS=$'\t'
 
-# shellcheck source=./setenv.sh
-source ./setenv.sh
+# Function to print the usage information and exit the script with a non-zero status
+function print_usage {
+    echo "Usage: bash deploy.sh"
+    echo "$*"
+    exit 1
+}
 
-# deploy kind ingress ready cluster with calico CNI and nginx ingress controller
+# shellcheck source=/scripts/setenv.sh
+. ./scripts/setenv.sh
+# shellcheck source=/scripts/prepare.sh
+. ./scripts/prepare.sh
 
 ## Deploy kind with no CNI and ingress ports mappings / node-labels
 
-kind create cluster --name "$CLUSTER_NAME" --config ./kind-ingress.yaml
+# shellcheck source=./scripts/kind-ingress.yaml
+kind create cluster --name "$CLUSTER_NAME" --config ./manifests/kind-ingress.yaml --silent
+echo "creating kind cluster"
 
 ## deploy the Calico CNI
 
