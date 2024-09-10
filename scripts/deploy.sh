@@ -10,13 +10,13 @@ function print_usage {
 }
 
 # shellcheck source=/scripts/setenv.sh
-. ./scripts/setenv.sh
+. ./setenv.sh
 # shellcheck source=/scripts/prepare.sh
 . ./scripts/prepare.sh
 
 ## Deploy kind with no CNI and ingress ports mappings / node-labels
 
-kind create cluster --name "$CLUSTER_NAME" --config ./manifests/kind-ingress.yaml 
+kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress.yaml 
 
 ## deploy the Calico CNI
 
