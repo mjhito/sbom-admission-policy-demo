@@ -9,9 +9,9 @@ function print_usage {
     exit 1
 }
 
-# shellcheck source=/scripts/setenv.sh
+# shellcheck source=./setenv.sh
 . ./setenv.sh
-# shellcheck source=/scripts/prepare.sh
+# shellcheck source=./scripts/prepare.sh
 . ./scripts/prepare.sh
 
 ## Deploy kind with no CNI and ingress ports mappings / node-labels

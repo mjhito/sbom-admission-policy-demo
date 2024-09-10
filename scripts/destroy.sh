@@ -2,8 +2,7 @@
 set -eou pipefail
 IFS=$'\t'
 
-# shellcheck source=./../setenv.sh
-. ./setenv.sh
+source setenv.sh
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -12,4 +11,4 @@ function print_usage {
     exit 1
 }
 
-kind delete cluster --name=$CLUSTER_NAME
+kind delete cluster --name="$CLUSTER_NAME"
