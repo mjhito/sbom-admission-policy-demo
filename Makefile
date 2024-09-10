@@ -15,7 +15,7 @@ PYTHON            = python3
 CHARTS            := $(filter-out deps, $(patsubst charts/%/.,%,$(wildcard charts/*/.)))
 DISTRO            ?= ubuntu_focal
 IMAGE             := ${DOCKER_REGISTRY}/${IMAGE_PREFIX}/${IMAGE_NAME}:${IMAGE_TAG}-${DISTRO}
-UBUNTU_BASE_IMAGE ?=
+UBUNTU_BASE_IMAGE ?= 
 
 # VERSION INFO
 GIT_COMMIT = $(shell git rev-parse HEAD)
