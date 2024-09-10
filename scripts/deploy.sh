@@ -16,8 +16,7 @@ function print_usage {
 
 ## Deploy kind with no CNI and ingress ports mappings / node-labels
 
-kind create cluster --name "$CLUSTER_NAME" --config ./manifests/kind-ingress.yaml --silent
-echo "creating kind cluster"
+kind create cluster --name "$CLUSTER_NAME" --config ./manifests/kind-ingress.yaml 
 
 ## deploy the Calico CNI
 
