@@ -2,6 +2,30 @@
 
 A demo of how Gatekeeper/Ratify can be used in conjunction with the Snyk SBOM CLI tools to ensure only images with valid SBOM and Snyk SBOM vulnerability scans are deployed to your kubernetes environment
 
+## Deployment Diagram
+
+TODO
+
+## Why should I care about SBOMs
+
+TODO
+
+## Quick Start
+
+    edit the setenv.sh with the required env vars
+    `vi setenv.sh`
+    `./scripts/deploy.sh`
+
+    Apply K8s manifests
+
+    `kubectl apply -f ./manifests/verified-deployment.yaml`
+
+    Expected output: "Deployment Created"
+   
+    `kubectl apply -f ./manifests/unverified-deployment.yaml`
+
+    Expeced output: "Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM"
+
 ## What is Ratify
 
 Ratify is an open-source project that was established in 2021. It is a verification engine that empowers users to enforce policies through the verification of container images and attestations, such as vulnerability reports and SBOMs (software bills of materials). Ratify offers a pluggable framework that allows users to bring their own verification plugins.

@@ -35,3 +35,6 @@ helm install gatekeeper/gatekeeper  \
     --set validatingWebhookTimeoutSeconds=5 \
     --set mutatingWebhookTimeoutSeconds=2 \
     --set externaldataProviderResponseCacheTTL=10s
+
+kubectl apply -f ./manifests/resources/gatekeeper/
+
