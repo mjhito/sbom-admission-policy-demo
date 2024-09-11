@@ -13,15 +13,22 @@ TODO
 ## Quick Start
 
 Edit the setenv.sh with the required env vars
+
   `vi setenv.sh`
   `./scripts/deploy.sh`
+
 Apply K8s manifests
+
   `kubectl apply -f ./manifests/verified-deployment.yaml`
+
 Expected output: "Deployment Created"
+
   `kubectl apply -f ./manifests/unverified-deployment.yaml`
+
 Expeced output: "Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM"
 
 Clean up environment
+
   `./scripts/destroy.sh`
 
 ## What is Ratify
