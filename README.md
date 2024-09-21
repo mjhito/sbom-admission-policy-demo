@@ -36,7 +36,7 @@ Ensure the following tools are installed:
 
 ### If you have a cluster
 
-1; Edit the `setenv.sh` file to set the required environment variables:
+1; Edit the `setenv.sh` file to set the required environment variables or ensure they are available in your environment (best practice):
 
 ```bash
 vi setenv.sh
