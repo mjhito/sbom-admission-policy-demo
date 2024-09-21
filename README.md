@@ -25,7 +25,7 @@ NIS Directive: Ensures critical infrastructure operators follow cybersecurity be
 
 **Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
 
-## Why Should I integrate SBOMs into your container deployment pipeline/enforce SBOMs via policy?
+## Why Should I integrate SBOMs into my container deployment pipelines/enforce SBOMs via policy?
 
 By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensure that each image has passed critical security checks, but also provide auditable evidence that your organization adheres to compliance standards. This ensures that vulnerabilities are identified before deployment, protecting against attacks and fulfilling reporting requirements during security audits.
 
