@@ -15,20 +15,18 @@ function print_usage {
     exit 1
 }
 
-if [[ "$OS" == "Darwin" ]]; then
+if [[ "$OS" = "Darwin" ]]; then
+    echo "Deploying Kind cluster with calico CNI and nginx ingress"
+    kind create cluster --name "${CLUSTER_NAME:=dev}" --config ./manifests/resources/kind-ingress-arm64.yaml
 
-    echo "Deploying Kind cluster with calico cni and nginx ingress"
-    kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress-arm64.yaml
+elif [[ "$OS" = "Linux" ]]; then
+    echo "Deploying Kind cluster with calico CNI and nginx ingress"
+    kind create cluster --name "${CLUSTER_NAME:=dev}" --config ./manifests/resources/kind-ingress-amd64.yaml
 
-elif [[ "$OS" == "Linux" ]]; then
-
-    echo "Deploying Kind cluster with calico cni and nginx ingress"
-    kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress-amd64.yaml
-    
 else
-    echo "Unsupported OS: $OS"
-    exit 1
+    echo "Unsupported OS"
 fi
+
 
 ## deploy the Calico CNI
 

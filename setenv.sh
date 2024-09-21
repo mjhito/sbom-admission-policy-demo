@@ -3,22 +3,17 @@
 # Set the required vars here before running deploy.sh
 # you can change the values here or have them available in your env prior to running the script 
 
-export CLUSTER_NAME="${CLUSTER_NAME}"
-export REGISTRY_URL="${REGISTRY_URL}"
-export REGISTRY_USERNAME="${REGISTRY_USERNAME}"
-export REGISTRY_PASSWORD="${REGISTRY_PASSWORD}"
-export REGISTRY_EMAIL="${REGISTRY_EMAIL}"
+# Only export if not already set (optional variables)
+export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"          # Default empty if not set
+export REGISTRY_URL="${REGISTRY_URL:="https://index.docker.io/v1/"}"  # Default empty if not set
+export REGISTRY_USERNAME="${REGISTRY_USERNAME:=}" # Default empty if not set
+export REGISTRY_PASSWORD="${REGISTRY_PASSWORD:=}" #  escape special characters manually if needed
+export REGISTRY_EMAIL="${REGISTRY_EMAIL:=}"      # Default empty if not set
+export SBOM_FORMAT="${SBOM_FORMAT:="spdx2.3+json"}" # Default to spdx2.3+json if not set
 
-# TODO
-
-# export SNYK_TOKEN="${SNYK_TOKEN}"
-# export SNYK_ORG_ID="${SNYK_ORG_ID}"
-# export SNYK_GROUP_ID="${SNYK_GROUP_ID}"
-# export SNYK_PROJECT_ID="${SNYK_PROJECT_ID}"
-# export SNYK_INTEGRATION_ID="${SNYK_INTEGRATION_ID}"
-# export SNYK_CONNECTOR_SA_TOKEN="${SNYK_CONNECTOR_SA_TOKEN}"
-# export SNYK_RUNTIME_SA_TOKEN="${SNYK_RUNTIME_SA_TOKEN}"
-# export GITHUB_TOKEN="${GITHUB_TOKEN}"
-# export BROKER_TOKEN="${BROKER_TOKEN}"
-# export BROKER_CLIENT_URL="${BROKER_CLIENT_URL}"
-# export SBOM_FORMAT="${SBOM_FORMAT}"
+# Notify user of any defaults applied (except password)
+echo "CLUSTER_NAME is set to '${CLUSTER_NAME}'"
+echo "REGISTRY_URL is set to '${REGISTRY_URL}'"
+echo "REGISTRY_USERNAME is set to '${REGISTRY_USERNAME}'"
+echo "REGISTRY_EMAIL is set to '${REGISTRY_EMAIL}'"
+echo "SBOM_FORMAT is set to '${SBOM_FORMAT}'"

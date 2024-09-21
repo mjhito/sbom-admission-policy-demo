@@ -6,12 +6,18 @@ source setenv.sh
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash destroy.sh"
+    echo "Usage: bash destroy.sh [--kind]"
     echo "$*"
     exit 1
 }
 
-helm uninstall gatekeeper/gatekeeper -n gatekeeper-system
-helm uninstall ratify -n helm install gatekeeper/gatekeeper
+if [[ "$*" == "--kind" ]]; then
+    kind delete cluster --name="$CLUSTER_NAME"
+    exit 1
+fi
 
-kind delete cluster --name="$CLUSTER_NAME"s
+helm uninstall gatekeeper -n gatekeeper-system
+helm uninstall ratify -n gatekeeper-system
+kubectl delete ns gatekeeper-system
+kubectl delete ns sbom-demo
+echo "deleted all demo resources"

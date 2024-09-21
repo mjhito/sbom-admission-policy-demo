@@ -43,7 +43,10 @@ fi
 
 # Check environment variables exist
 function check_env_vars {
-    local required_vars=("ENV_VAR1" "ENV_VAR2") # Replace with actual required env vars
+    local required_vars=("CLUSTER_NAME" "REGISTRY_URL"\
+        "REGISTRY_USERNAME" "REGISTRY_PASSWORD" \
+        "REGISTRY_EMAIL" "SBOM_FORMAT")
+
     for var in "${required_vars[@]}"; do
         if [[ -z "${!var}" ]]; then
             echo "Error: Required environment variable $var is not set."
@@ -55,8 +58,28 @@ function check_env_vars {
 # Call the function to check env vars
 check_env_vars
 
-# Check if the --kind flag is set
-if [[ "$*" == "--kind" ]]; then
+# Flags
+deploy_kind=false
+deploy_demo=false
+
+# Parse the flags
+for arg in "$@"; do
+    case $arg in
+        --kind)
+            deploy_kind=true
+            ;;
+        --demo)
+            deploy_demo=true
+            ;;
+        *)
+            echo "Invalid argument: $arg"
+            print_usage
+            ;;
+    esac
+done
+
+# Deploy using kind if the flag is set
+if $deploy_kind; then
     if [[ ! -f "./scripts/deploy-kind.sh" ]]; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
@@ -64,12 +87,11 @@ if [[ "$*" == "--kind" ]]; then
     . ./scripts/deploy-kind.sh
 fi
 
-# Check if the --demo flag is set
-if [[ "$*" == "--demo" ]]; then
+# Deploy the demo if the flag is set
+if $deploy_demo; then
     if [[ ! -f "./scripts/deploy-demo.sh" ]]; then
         echo "Error: ./scripts/deploy-demo.sh script is missing."
         exit 1
     fi
     . ./scripts/deploy-demo.sh
 fi
-

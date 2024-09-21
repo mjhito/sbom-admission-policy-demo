@@ -20,7 +20,7 @@ helm install gatekeeper/gatekeeper  \
     --set mutatingWebhookTimeoutSeconds=2 \
     --set externaldataProviderResponseCacheTTL=10s
 
-kubectl create secret docker-registry ratify-regcred -n <ratify-namespace>\
+kubectl create secret docker-registry ratify-regcred -n gatekeeper-system\
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
     --docker-password="${REGISTRY_PASSWORD}" \
@@ -36,7 +36,7 @@ curl -sSLO https://raw.githubusercontent.com/deislabs/ratify/main/test/testdata/
 helm install ratify \
     ratify/ratify --atomic \
     --namespace gatekeeper-system \
-    --set-file dockerConfig="$HOME/docker/config.json" \
+    --set-file dockerConfig="$HOME/.docker/config.json" \
     --set-file notationCerts={'./notation.crt'} \
     --set featureFlags.RATIFY_CERT_ROTATION=true \
     --set policy.useRego=true \

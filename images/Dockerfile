@@ -1,0 +1,1 @@
+FROM nginx:stable-alpine-perl@sha256:c9896551cb3993df16b553dacf95c47a86fe4f351e82101561b710ef179b8e68
