@@ -4,7 +4,7 @@ This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Rati
 
 ## Deployment Diagram
 
-*To be added*
+![deployment diagram sample](image.png)
 
 ## Why should I care about SBOMs?
 
