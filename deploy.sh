@@ -56,7 +56,7 @@ function check_env_vars {
 check_env_vars
 
 # Check if the --kind flag is set
-if [[ "$1" == "--kind" ]]; then
+if [[ "$*" == "--kind" ]]; then
     if [[ ! -f "./scripts/deploy-kind.sh" ]]; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
@@ -65,7 +65,7 @@ if [[ "$1" == "--kind" ]]; then
 fi
 
 # Check if the --demo flag is set
-if [[ "$2" == "--demo" ]]; then
+if [[ "$*" == "--demo" ]]; then
     if [[ ! -f "./scripts/deploy-demo.sh" ]]; then
         echo "Error: ./scripts/deploy-demo.sh script is missing."
         exit 1
