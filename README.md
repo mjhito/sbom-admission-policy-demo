@@ -2,7 +2,7 @@
 
 This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Ratify.dev to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
 
-The snyk container sbom command generates an SBOM for a container image.
+The SNYK Container SBOM feature generates an SBOM for a container image.
 
 Supported formats include CycloneDX v1.4 (JSON or XML), CycloneDX v1.5 (JSON or XML) and SPDX v2.3 (JSON).
 
