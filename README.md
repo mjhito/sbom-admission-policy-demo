@@ -1,5 +1,7 @@
 # SBOM Admission Policy Demo
 
+## Intro
+
 This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Ratify.dev to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
 
 ## Deployment Diagram
