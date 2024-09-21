@@ -2,6 +2,12 @@
 
 This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Ratify.dev to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
 
+The snyk container sbom command generates an SBOM for a container image.
+
+Supported formats include CycloneDX v1.4 (JSON or XML), CycloneDX v1.5 (JSON or XML) and SPDX v2.3 (JSON).
+
+An SBOM can be generated for operating system dependencies as well as application dependencies within the image. Unmanaged dependencies are currently not supported.
+
 ## Deployment Diagram
 
 ![deployment diagram sample](image.png)
@@ -23,6 +29,12 @@ By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensu
 
 Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
 
+## What is Gatekeeper?
+
+Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
+
+Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
+
 ## What is Ratify?
 
 Ratify, established in 2021, is an open-source verification engine that enables users to enforce policies by verifying container images and attestations, including SBOMs and vulnerability reports. Ratify offers a pluggable framework, allowing users to integrate custom verification plugins.
@@ -30,13 +42,6 @@ Ratify, established in 2021, is an open-source verification engine that enables 
 A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes policy controller. Ratify serves as an external data provider for Gatekeeper, supplying verification data that Gatekeeper can enforce based on predefined policies.
 
 [Learn more about Ratify and SBOM verification](https://ratify.dev/docs/plugins/verifier/sbom#sbom-with-license-and-package-validation).
-
-## What is Gatekeeper?
-
-Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
-
-Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
-
 
 ## Prerequisites
 
