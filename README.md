@@ -36,19 +36,19 @@ Ensure the following tools are installed:
 
 ### If you have a cluster
 
-1; Edit the `setenv.sh` file to set the required environment variables or ensure they are available in your environment (best practice):
+1. Edit the `setenv.sh` file to set the required environment variables or ensure they are available in your environment (best practice):
 
 ```bash
 vi setenv.sh
 ```
 
-2; Deploy the demo:
+2. Deploy the demo:
 
 ```bash
 ./scripts/deploy.sh --demo
 ```
 
-3: Apply Kubernetes manifests for verified deployments:
+3. Apply Kubernetes manifests for verified deployments:
 
 ```bash
 kubectl apply -f ./manifests/verified-deployment.yaml
@@ -56,7 +56,7 @@ kubectl apply -f ./manifests/verified-deployment.yaml
 
 **Expected Output:** `Deployment Created`
 
-4; Test the unverified deployment:
+4. Test the unverified deployment:
 
 ```bash
 kubectl apply -f ./manifests/unverified-deployment.yaml
@@ -64,26 +64,26 @@ kubectl apply -f ./manifests/unverified-deployment.yaml
 
 **Expected Output:** `Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM`
 
-5; Clean up the environment:
+5. Clean up the environment:
     ```bash
     ./scripts/destroy.sh
     ```
 
 ### If you don't have a cluster
 
-1; Edit the `setenv.sh` file to set the required environment variables:
+1. Edit the `setenv.sh` file to set the required environment variables:
 
 ```bash
 vi setenv.sh
 ```
 
-2; Deploy the demo:
+2. Deploy the demo:
 
 ```bash
 ./scripts/deploy.sh --kind --demo
 ```
 
-Continue with step 3 above.
+**Continue with step 3 above.**
 
 ## What is Ratify?
 
