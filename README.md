@@ -12,12 +12,12 @@ Software Bill of Materials (SBOMs) provide a detailed list of components within 
 
 SBOMs help achieve compliance by enhancing the visibility of software components, including open-source dependencies, which is vital for reporting, audit trails, and maintaining operational resilience. By attaching the SBOM as an artifact to an OCI image and enforcing policies that only allow the deployment of images with SBOMs, organizations can meet regulatory requirements around software transparency and vulnerability management.
 
-Regulatory Benefits:
+**Regulatory Benefits:**
 NIS Directive: Ensures critical infrastructure operators follow cybersecurity best practices by mandating security incident reporting and proactive risk management, including software transparency.
 
-DORA: Focuses on the resilience of the financial sector's IT systems by requiring comprehensive oversight and secure software deployment practices, including the use of SBOMs for tracking software vulnerabilities.
+**DORA:** Focuses on the resilience of the financial sector's IT systems by requiring comprehensive oversight and secure software deployment practices, including the use of SBOMs for tracking software vulnerabilities.
 
-Other Cybersecurity Regulations: Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
+**Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
 
 By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensure that each image has passed critical security checks, but also provide auditable evidence that your organization adheres to compliance standards. This ensures that vulnerabilities are identified before deployment, protecting against attacks and fulfilling reporting requirements during security audits.
 
@@ -30,7 +30,6 @@ Ensure the following tools are installed:
 - [Snyk CLI](https://snyk.io/docs/cli/getting-started)
 - [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [ORAS](https://oras.land/docs/category/oras-commands/)
 
 ## Quick Start
 
