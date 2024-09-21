@@ -11,4 +11,7 @@ function print_usage {
     exit 1
 }
 
-kind delete cluster --name="$CLUSTER_NAME"
+helm uninstall gatekeeper/gatekeeper -n gatekeeper-system
+helm uninstall ratify -n helm install gatekeeper/gatekeeper
+
+kind delete cluster --name="$CLUSTER_NAME"s

@@ -1,0 +1,13 @@
+apiVersion: config.ratify.deislabs.io/v1beta1
+kind: Verifier
+metadata:
+  name: verifier-sbom
+spec:
+  name: sbom
+  artifactTypes: application/spdx+json
+  parameters:
+    disallowedPackages:
+    - name: busybox
+      version: 1.36.1-r0
+    disallowedLicenses: 
+    - MPL

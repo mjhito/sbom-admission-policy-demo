@@ -1,62 +1,104 @@
 # SBOM Admission Policy Demo
 
-A demo of how Gatekeeper/Ratify can be used in conjunction with the Snyk SBOM CLI tools to ensure only images with valid SBOM and Snyk SBOM vulnerability scans are deployed to your kubernetes environment
+This demo showcases how to use Gatekeeper and Ratify alongside Snyk SBOM CLI tools to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
 
 ## Deployment Diagram
 
-TODO
+*To be added*
 
-## Why should I care about SBOMs
+## Why should I care about SBOMs?
 
-TODO
+Software Bill of Materials (SBOMs) provide a detailed list of components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various other cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses operating in regulated sectors.
+
+SBOMs help achieve compliance by enhancing the visibility of software components, including open-source dependencies, which is vital for reporting, audit trails, and maintaining operational resilience. By attaching the SBOM as an artifact to an OCI image and enforcing policies that only allow the deployment of images with SBOMs, organizations can meet regulatory requirements around software transparency and vulnerability management.
+
+Regulatory Benefits:
+NIS Directive: Ensures critical infrastructure operators follow cybersecurity best practices by mandating security incident reporting and proactive risk management, including software transparency.
+
+DORA: Focuses on the resilience of the financial sector's IT systems by requiring comprehensive oversight and secure software deployment practices, including the use of SBOMs for tracking software vulnerabilities.
+
+Other Cybersecurity Regulations: Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
+
+By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensure that each image has passed critical security checks, but also provide auditable evidence that your organization adheres to compliance standards. This ensures that vulnerabilities are identified before deployment, protecting against attacks and fulfilling reporting requirements during security audits.
+
+Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
 
 ## Quick Start
 
-Edit the setenv.sh with the required env vars
+### If you have a cluster
 
-  `vi setenv.sh`
-  `./scripts/deploy.sh`
+1; Edit the `setenv.sh` file to set the required environment variables:
 
-Apply K8s manifests
+```bash
+vi setenv.sh
+```
 
-  `kubectl apply -f ./manifests/verified-deployment.yaml`
+2; Deploy the demo:
 
-Expected output: "Deployment Created"
+```bash
+./scripts/deploy.sh --demo
+```
 
-  `kubectl apply -f ./manifests/unverified-deployment.yaml`
+3: Apply Kubernetes manifests for verified deployments:
 
-Expeced output: "Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM"
+```bash
+kubectl apply -f ./manifests/verified-deployment.yaml
+```
 
-Clean up environment
+**Expected Output:** `Deployment Created`
 
-  `./scripts/destroy.sh`
+4; Test the unverified deployment:
 
-## What is Ratify
+```bash
+kubectl apply -f ./manifests/unverified-deployment.yaml
+```
 
-Ratify is an open-source project that was established in 2021. It is a verification engine that empowers users to enforce policies through the verification of container images and attestations, such as vulnerability reports and SBOMs (software bills of materials). Ratify offers a pluggable framework that allows users to bring their own verification plugins.
+**Expected Output:** `Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM`
 
-<https://ratify.dev/docs/plugins/verifier/sbom#sbom-with-license-and-package-validation>
+5; Clean up the environment:
+    ```bash
+    ./scripts/destroy.sh
+    ```
 
-One of the primary use cases of Ratify is to use it with Gatekeeper as the Kubernetes policy controller. This helps prevent non-compliant container images from running in your Kubernetes cluster. Ratify acts as an external data provider for Gatekeeper and returns verification data that can be processed by Gatekeeper according to defined policies.
+### If you don't have a cluster
 
-## What is Gatekeeper
+1; Edit the `setenv.sh` file to set the required environment variables:
 
-Every organization has policies. Some are essential to meet governance and legal requirements. Others help ensure adherence to best practices and institutional conventions. Attempting to ensure compliance manually would be error-prone and frustrating. Automating policy enforcement ensures consistency, lowers development latency through immediate feedback, and helps with agility by allowing developers to operate independently without sacrificing compliance.
+```bash
+vi setenv.sh
+```
 
-Kubernetes allows decoupling policy decisions from the inner workings of the API Server by means of admission controller webhooks, which are executed whenever a resource is created, updated or deleted. Gatekeeper is a validating and mutating webhook that enforces CRD-based policies executed by Open Policy Agent, a policy engine for Cloud Native environments hosted by CNCF as a graduated project.
+2; Deploy the demo:
 
-![gatekeeper/ratify diagram ref:https://techcommunity.microsoft.com/t5/microsoft-developer-community/use-ratify-to-prevent-non-compliant-container-images-from/ba-p/4008730 ](image.png)
+```bash
+./scripts/deploy.sh --kind --demo
+```
 
-### Prerequisites
+## What is Ratify?
 
-ORAS - https://oras.land/docs/category/oras-commands/
+Ratify, established in 2021, is an open-source verification engine that enables users to enforce policies by verifying container images and attestations, including SBOMs and vulnerability reports. Ratify offers a pluggable framework, allowing users to integrate custom verification plugins.
 
-KIND -
+A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes policy controller. Ratify serves as an external data provider for Gatekeeper, supplying verification data that Gatekeeper can enforce based on predefined policies.
 
-KUBECTL -
+[Learn more about Ratify and SBOM verification](https://ratify.dev/docs/plugins/verifier/sbom#sbom-with-license-and-package-validation).
 
-SNYK -
+## What is Gatekeeper?
 
-### Usage
+Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
 
-### Limitations
+Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
+
+## Prerequisites
+
+Ensure the following tools are installed:
+
+- [Snyk CLI](https://snyk.io/docs/cli/getting-started)
+- [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [ORAS](https://oras.land/docs/category/oras-commands/)
+- [Gatekeeper](https://gatekeeper.sh/docs/install/)
+- [Ratify](https://ratify.dev/docs/install/)
+
+## Limitations
+
+*Include any known limitations or considerations for the demo here.*
