@@ -74,6 +74,8 @@ vi setenv.sh
 ./scripts/deploy.sh --kind --demo
 ```
 
+Continue with step 3 above.
+
 ## What is Ratify?
 
 Ratify, established in 2021, is an open-source verification engine that enables users to enforce policies by verifying container images and attestations, including SBOMs and vulnerability reports. Ratify offers a pluggable framework, allowing users to integrate custom verification plugins.
