@@ -23,6 +23,15 @@ By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensu
 
 Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
 
+## Prerequisites
+
+Ensure the following tools are installed:
+
+- [Snyk CLI](https://snyk.io/docs/cli/getting-started)
+- [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [ORAS](https://oras.land/docs/category/oras-commands/)
+
 ## Quick Start
 
 ### If you have a cluster
@@ -89,17 +98,6 @@ A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes p
 Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
 
 Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
-
-## Prerequisites
-
-Ensure the following tools are installed:
-
-- [Snyk CLI](https://snyk.io/docs/cli/getting-started)
-- [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [ORAS](https://oras.land/docs/category/oras-commands/)
-- [Gatekeeper](https://gatekeeper.sh/docs/install/)
-- [Ratify](https://ratify.dev/docs/install/)
 
 ## Limitations
 
