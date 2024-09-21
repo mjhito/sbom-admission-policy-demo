@@ -3,7 +3,10 @@
 set -eou pipefail
 IFS=$'\t\n'
 
+# Record the start time
 start=$(date +%s)
+# Detect the OS
+OS=$(uname)
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -12,8 +15,20 @@ function print_usage {
     exit 1
 }
 
-echo "Deploying Kind cluster with calico cni and nginx ingress"
-kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress.yaml
+if [[ "$OS" == "Darwin" ]]; then
+
+    echo "Deploying Kind cluster with calico cni and nginx ingress"
+    kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress-arm64.yaml
+
+elif [[ "$OS" == "Linux" ]]; then
+
+    echo "Deploying Kind cluster with calico cni and nginx ingress"
+    kind create cluster --name "$CLUSTER_NAME" --config ./manifests/resources/kind-ingress-amd64.yaml
+    
+else
+    echo "Unsupported OS: $OS"
+    exit 1
+fi
 
 ## deploy the Calico CNI
 
@@ -23,12 +38,18 @@ echo 'waiting for calico pods to become ready....'
 
 kubectl wait --for=condition=ready pod -l k8s-app=calico-node -A --timeout=90s
 
-## deploy nginx ingress controller
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml -n ingress-nginx
+## Deploy NGINX Ingress Controller
+if [[ $OS == "Darwin" ]]; then
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml -n ingress-nginx
+elif [[ $OS == "Linux" ]]; then
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml -n ingress-nginx
+else
+    echo "Unsupported OS: ($OS)"
+fi
 
 kubectl wait --namespace ingress-nginx \
 --for=condition=ready pod \
 --selector=app.kubernetes.io/component=controller \
 --timeout=90s
 
-echo "Deployed kind in :" $(( $(date +%s) - $start )) "seconds"
+echo "Deployed kind in :" $(( $(date +%s) - start )) "seconds"
