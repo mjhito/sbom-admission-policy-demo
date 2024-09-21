@@ -1,12 +1,12 @@
 ## SBOM Admission Policy Demo
 
-This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Ratify.dev to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
+This demo showcases how to use [Snyk](snyk.io) container sbom feature alongside Gatekeeper (OPA) and Ratify to ensure that only images with valid SBOMs are deployed to a Kubernetes environments.
 
-The SNYK Container SBOM feature generates an SBOM for a container image.
+The [snyk container sbom](https://docs.snyk.io/snyk-cli/commands/container-sbom) feature generates an SBOM for a container image.
 
 Supported formats include CycloneDX v1.4 (JSON or XML), CycloneDX v1.5 (JSON or XML) and SPDX v2.3 (JSON).
 
-An SBOM can be generated for operating system dependencies as well as application dependencies within the image. Unmanaged dependencies are currently not supported.
+An SBOM can be generated for operating system dependencies as well as [application dependencies within the image](https://docs.snyk.io/scan-with-snyk/snyk-container/use-snyk-container/detect-application-vulnerabilities-in-container-images)
 
 ## Deployment Diagram
 
