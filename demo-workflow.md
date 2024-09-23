@@ -49,9 +49,8 @@ oras pull docker.io/$REGISTRY_USERNAME/snyk-juice-shop@$SBOM_SHA
 kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
-**Expected Output:** `pod/verified created`
-
-**Show logs on Ratify pod in Gatekeeper-System namespace**
+Expected Output: `pod/verified created`
+Show logs on Ratify pod in Gatekeeper-System namespace
 
 ```Markdown
 {
@@ -88,4 +87,4 @@ kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 ```
 
-**Expected Output:** `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified`
+Expected Output: `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified`
