@@ -1,6 +1,12 @@
 ## SBOM Admission Policy Demo
 
-This demo showcases how to use Snyk SBOM CLI alongside Gatekeeper (OPA) and Ratify.dev to ensure that only images with valid SBOMs and Snyk vulnerability scans are deployed to a Kubernetes environment.
+This demo showcases how to use [Snyk](snyk.io) container sbom feature alongside Gatekeeper (OPA) and Ratify to ensure that only images with valid SBOMs are deployed to a Kubernetes environments.
+
+The [snyk container sbom](https://docs.snyk.io/snyk-cli/commands/container-sbom) feature generates an SBOM for a container image.
+
+Supported formats include CycloneDX v1.4 (JSON or XML), CycloneDX v1.5 (JSON or XML) and SPDX v2.3 (JSON).
+
+An SBOM can be generated for operating system dependencies as well as [application dependencies within the image](https://docs.snyk.io/scan-with-snyk/snyk-container/use-snyk-container/detect-application-vulnerabilities-in-container-images)
 
 ## Deployment Diagram
 
@@ -19,9 +25,17 @@ NIS Directive: Ensures critical infrastructure operators follow cybersecurity be
 
 **Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
 
+## Why Should I integrate SBOMs into my container deployment pipelines/enforce SBOMs via policy?
+
 By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensure that each image has passed critical security checks, but also provide auditable evidence that your organization adheres to compliance standards. This ensures that vulnerabilities are identified before deployment, protecting against attacks and fulfilling reporting requirements during security audits.
 
 Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
+
+## What is Gatekeeper?
+
+Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
+
+Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
 
 ## What is Ratify?
 
@@ -30,13 +44,6 @@ Ratify, established in 2021, is an open-source verification engine that enables 
 A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes policy controller. Ratify serves as an external data provider for Gatekeeper, supplying verification data that Gatekeeper can enforce based on predefined policies.
 
 [Learn more about Ratify and SBOM verification](https://ratify.dev/docs/plugins/verifier/sbom#sbom-with-license-and-package-validation).
-
-## What is Gatekeeper?
-
-Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
-
-Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
-
 
 ## Prerequisites
 
