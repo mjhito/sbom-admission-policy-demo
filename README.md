@@ -76,7 +76,7 @@ vi setenv.sh
 kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
-**Expected Output:** `pod/verified created`
+Expected Output: `pod/verified created`
 
 4. Test the unverified deployment:
 
@@ -84,7 +84,7 @@ kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 ```
 
-**Expected Output:** `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
+Expected Output: `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
 
 5. Clean up the environment:
 ```bash
