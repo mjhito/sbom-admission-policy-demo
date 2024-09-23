@@ -7,7 +7,7 @@
 **Build the Image**
 
 ```bash
-docker build -t $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64 .
+docker build -t $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64 . --push
 ```
 
 **Test the Image**
