@@ -102,7 +102,7 @@ vi setenv.sh
 2. Deploy the demo:
 
 ```bash
-./scripts/deploy.sh --kind --demo
+./scripts/deploy.sh --all
 ```
 
 **Continue with step 3 above.**

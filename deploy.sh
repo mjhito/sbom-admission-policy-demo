@@ -39,6 +39,7 @@ check_required_files
 # Check if the correct number of arguments are provided
 if [ $# -eq 0 ]; then
     print_usage
+    exit 1
 fi
 
 # Check environment variables exist
@@ -65,6 +66,10 @@ deploy_demo=false
 # Parse the flags
 for arg in "$@"; do
     case $arg in
+        --all)
+            deploy_kind=true
+            deploy_demo=true
+            ;;
         --kind)
             deploy_kind=true
             ;;
