@@ -7,9 +7,10 @@
 export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"          # Default empty if not set
 export REGISTRY_URL="${REGISTRY_URL:="https://index.docker.io/v1/"}"  # Default empty if not set
 export REGISTRY_USERNAME="${REGISTRY_USERNAME:=}" # Default empty if not set
-export REGISTRY_PASSWORD="${REGISTRY_PASSWORD:=}" #  escape special characters manually if needed
+export REGISTRY_PASSWORD=${REGISTRY_PASSWORD:=} # Default empty if not set
 export REGISTRY_EMAIL="${REGISTRY_EMAIL:=}"      # Default empty if not set
 export SBOM_FORMAT="${SBOM_FORMAT:="spdx2.3+json"}" # Default to spdx2.3+json if not set
+# Available formats are: cyclonedx1.4+json, cyclonedx1.4+xml, cyclonedx1.5+json, cyclonedx1.5+xml, spdx2.3+json
 
 # Notify user of any defaults applied (except password)
 echo "CLUSTER_NAME is set to '${CLUSTER_NAME}'"

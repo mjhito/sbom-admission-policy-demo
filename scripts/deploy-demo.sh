@@ -24,7 +24,7 @@ helm install gatekeeper/gatekeeper  \
 kubectl create secret docker-registry ratify-regcred --namespace=gatekeeper-system \
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
-    --docker-password="${REGISTRY_PASSWORD}" \
+    --docker-password=${REGISTRY_PASSWORD} \
     --docker-email="${REGISTRY_EMAIL}"
 
 echo "deploying ratify"
@@ -51,10 +51,8 @@ helm install ratify \
     # --set vulnerabilityreport.notaryProjectSignatureRequired=true \
     # --set vulnerabilityreport.disallowedSeverities="{high,critical}"
 
-kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=ratify -n ratify -A --timeout=90s
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=ratify -n gatekeeper-system --timeout=90s
 
 echo "Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier"
 kubectl apply -f ./manifests/resources/gatekeeper/
-kubectl apply -f ./manifest/resources/ratify/
-
-kubectl wait --timeout=30s
+kubectl apply -f ./manifests/resources/ratify/

@@ -33,7 +33,7 @@ Using policy enforcement tools like Gatekeeper and Ratify enables automated comp
 
 ## What is Gatekeeper?
 
-Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development. 
+Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development.
 
 Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
 
@@ -70,25 +70,25 @@ vi setenv.sh
 ./scripts/deploy.sh --demo
 ```
 
-3. Apply Kubernetes manifests for verified deployments:
+3. Run a verified deployment:
 
 ```bash
-kubectl apply -f ./manifests/verified-deployment.yaml
+kubectl run verified --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
-**Expected Output:** `Deployment Created`
+**Expected Output:** `pod/verified created`
 
 4. Test the unverified deployment:
 
 ```bash
-kubectl apply -f ./manifests/unverified-deployment.yaml
+kubectl run unverified --image=iuriikogan/unverified:latest
 ```
 
-**Expected Output:** `Deployment unable to be created: Gatekeeper validation failed: Ratify: No SBOM`
+**Expected Output:** `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
 
 5. Clean up the environment:
     ```bash
-    ./scripts/destroy.sh
+    ./scripts/destroy.sh [--kind]
     ```
 
 ### If you don't have a cluster
@@ -109,4 +109,4 @@ vi setenv.sh
 
 ## Limitations
 
-*Include any known limitations or considerations for the demo here.*
+

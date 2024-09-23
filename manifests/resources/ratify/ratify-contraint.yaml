@@ -7,5 +7,7 @@ spec:
   match:
     kinds:
       - apiGroups: ["*"]
-        kinds: ["*"]
+        kinds:
+        - Pod
+        - Deployment
     namespaces: ["sbom-demo"]
