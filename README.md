@@ -34,6 +34,35 @@ kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
 Expected Output: `pod/verified created`
+Logs for the ratify pod in gatekeeper-system namespace will show:
+```markdown
+{
+    "subject": "docker.io/iuriikogan/snyk-juice-shop@sha256:97e7c99eb657bcc631232b747ff7904b2fea40b7301b7c4658e62f6ec6a82dfd",
+    "referenceDigest": "sha256:05149e16a75f5667d31906b1aa595c9dca6947c79a3de904292b513cbc6ea400",
+    "artifactType": "application/spdx+json",
+    "verifierReports": [
+    {
+        "isSuccess": true,
+        "message": "SBOM verification success. No license or package violation found.",
+        "name": "verifier-sbom",
+        "verifierName": "verifier-sbom",
+        "type": "sbom",
+        "verifierType": "sbom",
+        "extensions": {
+        "creationInfo": {
+            "created": "2024-09-23T13:43:58Z",
+            "creators": [
+            "Tool: Snyk SBOM Export API v1.98.0",
+            "Organization: Snyk"
+            ],
+            "licenseListVersion": "3.19"
+        }
+        }
+    }
+    ],
+    "nestedReports": []
+}
+```
 
 4. Test the unverified deployment:
 
@@ -41,7 +70,11 @@ Expected Output: `pod/verified created`
 kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 ```
 
-Expected Output: `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
+Expected Output:
+
+```Markdown
+Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
+```
 
 5. Clean up the environment:
 ```bash
