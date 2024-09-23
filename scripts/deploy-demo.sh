@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 set -eou pipefail
+IFS=$'\t'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -20,7 +21,7 @@ helm install gatekeeper/gatekeeper  \
     --set mutatingWebhookTimeoutSeconds=2 \
     --set externaldataProviderResponseCacheTTL=10s
 
-kubectl create secret docker-registry ratify-regcred -n gatekeeper-system \
+kubectl create secret docker-registry ratify-regcred --namespace=gatekeeper-system \
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
     --docker-password="${REGISTRY_PASSWORD}" \
@@ -36,18 +37,24 @@ curl -sSLO https://raw.githubusercontent.com/deislabs/ratify/main/test/testdata/
 helm install ratify \
     ratify/ratify --atomic \
     --namespace gatekeeper-system \
-    --set-file dockerConfig="$HOME/.docker/config.json" \
-    --set-file notationCerts={'./notation.crt'} \
+    --set-file notationCerts={./notation.crt} \
     --set featureFlags.RATIFY_CERT_ROTATION=true \
     --set policy.useRego=true \
     --set oras.authProviders.k8secretsEnabled=true \
-    --set vulnerabilityreport.enabled=true \
-    --set vulnerabilityreport.maximumAge="24h" \
-    --set vulnerabilityreport.notaryProjectSignatureRequired=true \
-    --set vulnerabilityreport.disallowedSeverities="{high,critical}"
+    --set sbom.enabled=true \
+    --set sbom.maximumAge="24h"
+    # --set sbom.notaryProjectSignatureRequired=true \
+    # --set sbom.disallowedLicenses={"MPL"}
+    # --set sbom.disallowedPackages[0].name={"busybox"}
+    # --set vulnerabilityreport.enabled=true \
+    # --set vulnerabilityreport.maximumAge="24h" \
+    # --set vulnerabilityreport.notaryProjectSignatureRequired=true \
+    # --set vulnerabilityreport.disallowedSeverities="{high,critical}"
 
-kubectl wait --for=condition=ready pod -n ratify -A --timeout=90s
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=ratify -n ratify -A --timeout=90s
 
-echo "Deploying Gatekeeper SBOM and Contrainsts"
-
+echo "Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier"
 kubectl apply -f ./manifests/resources/gatekeeper/
+kubectl apply -f ./manifest/resources/ratify/
+
+kubectl wait --timeout=30s

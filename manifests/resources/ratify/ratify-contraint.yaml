@@ -8,4 +8,4 @@ spec:
     kinds:
       - apiGroups: ["*"]
         kinds: ["*"]
-    namespaces: ["*"]
+    namespaces: ["sbom-demo"]

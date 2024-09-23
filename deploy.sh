@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Exit the script on any error, unset variable, or command failure in a pipeline.
-set -xeou pipefail
+# set -ou pipefail
 IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status

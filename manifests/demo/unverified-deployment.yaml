@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: unverified-deployment
+  namespace: sbom-demo
 spec:
   replicas: 1
   selector:

@@ -49,9 +49,10 @@ A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes p
 
 Ensure the following tools are installed:
 
-- [Snyk CLI](https://snyk.io/docs/cli/getting-started)
-- [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [snyk](https://snyk.io/docs/cli/getting-started)
+- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [helm](https://helm.sh/docs/intro/install/)
 
 ## Quick Start
 
