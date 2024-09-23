@@ -6,6 +6,6 @@ spec:
   enforcementAction: deny
   match:
     kinds:
-      - apiGroups: [""]
-        kinds: ["Pod"]
-    namespaces: ["default"]
+      - apiGroups: ["*"]
+        kinds: ["*"]
+    namespaces: ["*"]

@@ -1,4 +1,4 @@
-apiVersion: Apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: verified-deployment
@@ -14,14 +14,8 @@ spec:
     spec:
       containers:
       - name: verified-deployment
-        image: iuriikogan/verified-deployment:v1
+        image: iuriikogan/k8sfilechurner:v1
         imagePullPolicy: IfNotPresent
-        securityContext:
-          runAsUser: nginx
-          runAsGroup: nginx
-          fsGroup: nginx
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
         ports:
         - containerPort: 80
         resources:

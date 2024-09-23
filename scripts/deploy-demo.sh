@@ -20,7 +20,7 @@ helm install gatekeeper/gatekeeper  \
     --set mutatingWebhookTimeoutSeconds=2 \
     --set externaldataProviderResponseCacheTTL=10s
 
-kubectl create secret docker-registry ratify-regcred -n gatekeeper-system\
+kubectl create secret docker-registry ratify-regcred -n gatekeeper-system \
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
     --docker-password="${REGISTRY_PASSWORD}" \
