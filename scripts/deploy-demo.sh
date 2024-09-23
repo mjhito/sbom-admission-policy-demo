@@ -42,7 +42,7 @@ helm install ratify \
     --set policy.useRego=true \
     --set oras.authProviders.k8secretsEnabled=true \
     --set sbom.enabled=true \
-    --set sbom.maximumAge="24h"
+    # --set sbom.maximumAge="24h"
     # --set sbom.notaryProjectSignatureRequired=true \
     # --set sbom.disallowedLicenses={"MPL"}
     # --set sbom.disallowedPackages[0].name={"busybox"}

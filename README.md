@@ -73,7 +73,7 @@ vi setenv.sh
 3. Run a verified deployment:
 
 ```bash
-kubectl run verified --image=iuriikogan/snyk-juice-shop:linux-amd64
+kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
 **Expected Output:** `pod/verified created`
@@ -81,15 +81,15 @@ kubectl run verified --image=iuriikogan/snyk-juice-shop:linux-amd64
 4. Test the unverified deployment:
 
 ```bash
-kubectl run unverified --image=iuriikogan/unverified:latest
+kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 ```
 
 **Expected Output:** `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified@sha256:97396efd3dc2971804148d21cc6a3d532cfd3212c25c10d76664eb8fc56f2878`
 
 5. Clean up the environment:
-    ```bash
-    ./scripts/destroy.sh [--kind]
-    ```
+```bash
+./scripts/destroy.sh [--kind]
+```
 
 ### If you don't have a cluster
 
@@ -108,5 +108,4 @@ vi setenv.sh
 **Continue with step 3 above.**
 
 ## Limitations
-
-
+TODO
