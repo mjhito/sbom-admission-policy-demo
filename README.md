@@ -121,6 +121,12 @@ By using solutions like [Snyk](https://snyk.io), which generates SBOMs for both 
 
 Using policy enforcement tools like Gatekeeper and Ratify ensures that only images with valid SBOMs and no unresolved vulnerabilities are deployed. This approach automates compliance, facilitates audit-readiness, and ensures adherence to regulatory frameworks during audits and reviews.
 
+## What is ORAS?
+
+[ORAS](https://oras.land) (OCI Registry As Storage) is an open-source project that allows users to store various types of artifacts—beyond just container images—in OCI-compliant registries. ORAS enables developers to attach additional metadata, such as SBOMs, signatures, or documentation, directly to container images by leveraging the OCI Artifact standard. This makes ORAS a powerful tool for managing software artifacts throughout the entire development and deployment lifecycle.
+
+By supporting the attachment of SBOMs as OCI artifacts, ORAS makes it easier for organizations to maintain transparency and security across their software supply chain. This simplifies SBOM management, ensuring that the artifacts and images stored in registries have all relevant metadata in place, enhancing compliance and operational resilience.
+
 ## What is Gatekeeper?
 
 Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, minimizing errors and enhancing consistency by providing immediate feedback during development.
