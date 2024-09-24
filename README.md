@@ -1,6 +1,6 @@
 ## SBOM Admission Policy Demo
 
-This demo showcases how to use [Snyk](snyk.io) container sbom feature alongside (ORAS)[oras.land], Gatekeeper (OPA) and Ratify to ensure that only images with valid SBOMs are deployed to a Kubernetes environments.
+This demo showcases how to use [Snyk](snyk.io) container sbom feature alongside [ORAS](oras.land) , Gatekeeper (OPA) and Ratify to ensure that only images with valid SBOMs are deployed to a Kubernetes environments.
 
 The [snyk container sbom](https://docs.snyk.io/snyk-cli/commands/container-sbom) feature generates an SBOM for a container image.
 
