@@ -99,44 +99,39 @@ vi setenv.sh
 
 ## Why should I care about SBOMs?
 
-Software Bill of Materials (SBOMs) provide a detailed list of components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various other cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses operating in regulated sectors.
+Software Bill of Materials (SBOMs) provide detailed insights into the components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses in regulated sectors.
 
-SBOMs help achieve compliance by enhancing the visibility of software components, including open-source dependencies, which is vital for reporting, audit trails, and maintaining operational resilience. By attaching the SBOM as an artifact to an OCI image and enforcing policies that only allow the deployment of images with SBOMs, organizations can meet regulatory requirements around software transparency and vulnerability management.
+ORAS (OCI Registry As Storage) simplifies SBOM management by allowing SBOMs to be attached directly to OCI container images as artifacts. This enables seamless integration of SBOMs into the software supply chain, ensuring that each image includes a verifiable record of its components. By associating SBOMs with images and enforcing policies that only permit the deployment of images containing SBOMs, organizations can meet regulatory requirements around software transparency and vulnerability management.
 
-**Regulatory Benefits:**
-NIS Directive: Ensures critical infrastructure operators follow cybersecurity best practices by mandating security incident reporting and proactive risk management, including software transparency.
+Additionally, tools like [Snyk](https://snyk.io) can generate SBOMs for container images and code repositories, providing detailed reports on both open-source dependencies and vulnerabilities in applications. This makes it easier to identify risks early in the development process and maintain security compliance across the entire software stack.
 
-**DORA:** Focuses on the resilience of the financial sector's IT systems by requiring comprehensive oversight and secure software deployment practices, including the use of SBOMs for tracking software vulnerabilities.
+### How ORAS Facilitates SBOM Verification:
+ORAS leverages OCI artifact support to store SBOMs alongside container images within OCI-compliant registries. This means that when you push an image, you can also push its associated SBOM as an artifact, enabling SBOM retrieval and verification directly from the registry. This approach ensures that SBOMs are tightly coupled with the software they describe, simplifying compliance with cybersecurity regulations by making SBOM verification part of the deployment process.
 
-**Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require the adoption of SBOMs to improve software supply chain security.
+### Regulatory Benefits:
+- **NIS Directive:** Ensures critical infrastructure operators follow cybersecurity best practices by mandating security incident reporting and proactive risk management, including software transparency through SBOMs.
+- **DORA:** Focuses on resilience in the financial sector’s IT systems by requiring secure software deployment practices, including SBOMs for tracking software vulnerabilities.
+- **Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require SBOM adoption to enhance software supply chain security.
 
 ## Why Should I integrate SBOMs into my container deployment pipelines/enforce SBOMs via policy?
 
-By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensure that each image has passed critical security checks, but also provide auditable evidence that your organization adheres to compliance standards. This ensures that vulnerabilities are identified before deployment, protecting against attacks and fulfilling reporting requirements during security audits.
+Integrating SBOMs into your container deployment pipelines ensures that every image has passed critical security and compliance checks. With tools like ORAS, you can attach SBOMs directly to your OCI images, enabling automated verification before deployment. This helps identify vulnerabilities early, protects against attacks, and provides an auditable trail that demonstrates compliance during security audits.
 
-Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
+By using solutions like [Snyk](https://snyk.io), which generates SBOMs for both containers and applications, you can further enhance security across the entire software lifecycle. Snyk integrates with container registries and CI/CD pipelines to scan images for known vulnerabilities and ensure that your SBOMs are always up-to-date with the latest security information.
 
-## What is ORAS (OCI Registry as a Service)
-
-Registries are evolving as generic artifact stores. To enable this goal, the ORAS project provides a way to push and pull OCI Artifacts to and from OCI Registries.
-
-The Open Container Initiative (OCI) defines the specifications and standards for container technologies. This includes the API for working with container registries, known formally as the OCI Distribution Specification. (a.k.a. the "distribution-spec"). The distribution-spec was written based on an open-source registry server originally released by the company Docker, which lives on GitHub at distribution/distribution (now a CNCF project). There are now a number of other open-source and commercial distribution-spec implementations, a list of which can be found here. Registries that implement the distribution-spec are referred to herein as OCI Registries.
-
-ORAS works similarly to tools you may already be familiar with, such as docker. It allows you to push (upload) and pull (download) things to and from an OCI Registry, and also handles login (authentication) and token flow (authorization). What ORAS does differently is shift the focus from container images to other types of artifacts.
-
-ORAS is the de facto tool for working with OCI Artifacts. It treats media types as a critical piece of the puzzle. Container images are never assumed to be the artifact in question.
+Using policy enforcement tools like Gatekeeper and Ratify ensures that only images with valid SBOMs and no unresolved vulnerabilities are deployed. This approach automates compliance, facilitates audit-readiness, and ensures adherence to regulatory frameworks during audits and reviews.
 
 ## What is Gatekeeper?
 
-Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development.
+Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, minimizing errors and enhancing consistency by providing immediate feedback during development.
 
-Kubernetes' policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
+Kubernetes’ policy enforcement is decoupled from its API server using admission controller webhooks that are triggered when resources are created, updated, or deleted. Gatekeeper acts as a validating and mutating webhook, enforcing Custom Resource Definitions (CRDs) defined by the Open Policy Agent (OPA), a powerful policy engine for cloud-native environments.
 
 ## What is Ratify?
 
-Ratify, established in 2021, is an open-source verification engine that enables users to enforce policies by verifying container images and attestations, including SBOMs and vulnerability reports. Ratify offers a pluggable framework, allowing users to integrate custom verification plugins.
+Ratify, established in 2021, is an open-source verification engine that allows users to enforce policies by verifying container images and attestations, including SBOMs and vulnerability reports. Ratify offers a pluggable framework, enabling integration with custom verification plugins.
 
-A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes policy controller. Ratify serves as an external data provider for Gatekeeper, supplying verification data that Gatekeeper can enforce based on predefined policies.
+A common use case for Ratify is integrating it with Gatekeeper as a Kubernetes policy controller. By using ORAS to attach SBOMs to OCI images and Ratify to verify these SBOMs, organizations can automate security and compliance checks in real-time, preventing the deployment of non-compliant images.
 
 [Learn more about Ratify and SBOM verification](https://ratify.dev/docs/plugins/verifier/sbom#sbom-with-license-and-package-validation).
 
