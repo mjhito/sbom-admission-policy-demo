@@ -116,6 +116,16 @@ By integrating SBOMs into your Kubernetes deployment pipeline, you not only ensu
 
 Using policy enforcement tools like Gatekeeper and Ratify enables automated compliance checks, ensuring that non-compliant images (those without SBOMs or with unresolved vulnerabilities) are not deployed. This setup supports both real-time compliance enforcement and audit-readiness, making it easier to demonstrate adherence to regulatory frameworks during audits and reviews.
 
+## What is ORAS (OCI Registry as a Service)
+
+Registries are evolving as generic artifact stores. To enable this goal, the ORAS project provides a way to push and pull OCI Artifacts to and from OCI Registries.
+
+The Open Container Initiative (OCI) defines the specifications and standards for container technologies. This includes the API for working with container registries, known formally as the OCI Distribution Specification. (a.k.a. the "distribution-spec"). The distribution-spec was written based on an open-source registry server originally released by the company Docker, which lives on GitHub at distribution/distribution (now a CNCF project). There are now a number of other open-source and commercial distribution-spec implementations, a list of which can be found here. Registries that implement the distribution-spec are referred to herein as OCI Registries.
+
+ORAS works similarly to tools you may already be familiar with, such as docker. It allows you to push (upload) and pull (download) things to and from an OCI Registry, and also handles login (authentication) and token flow (authorization). What ORAS does differently is shift the focus from container images to other types of artifacts.
+
+ORAS is the de facto tool for working with OCI Artifacts. It treats media types as a critical piece of the puzzle. Container images are never assumed to be the artifact in question.
+
 ## What is Gatekeeper?
 
 Gatekeeper is a policy enforcement tool for Kubernetes that ensures resources comply with organizational policies. It automates policy enforcement, which minimizes errors and enhances consistency by providing immediate feedback during development.
