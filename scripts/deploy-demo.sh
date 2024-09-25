@@ -1,6 +1,5 @@
 #! /usr/bin/env bash
 set -eou pipefail
-IFS=$'\t'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -24,14 +23,14 @@ helm install gatekeeper/gatekeeper  \
 kubectl create secret docker-registry ratify-regcred --namespace=gatekeeper-system \
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
-    --docker-password=${REGISTRY_PASSWORD} \
+    --docker-password="${REGISTRY_PASSWORD}" \
     --docker-email="${REGISTRY_EMAIL}"
 
 echo "deploying ratify"
 # Deploy Ratify
 helm repo add ratify https://ratify-project.github.io/ratify
 
-# download the notary verification certificate
+# download the notary "erification certificate
 curl -sSLO https://raw.githubusercontent.com/deislabs/ratify/main/test/testdata/notation.crt
 # install ratify
 helm install ratify \

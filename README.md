@@ -30,6 +30,7 @@ vi setenv.sh
 3. Run a verified deployment:
 
 ```bash
+kubectl create ns sbom-demo
 kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
