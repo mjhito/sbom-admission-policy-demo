@@ -118,9 +118,7 @@ ORAS leverages OCI artifact support to store SBOMs alongside container images wi
 
 Integrating SBOMs into your container deployment pipelines ensures that every image has passed critical security and compliance checks. With tools like ORAS, you can attach SBOMs directly to your OCI images, enabling automated verification before deployment. This helps identify vulnerabilities early, protects against attacks, and provides an auditable trail that demonstrates compliance during security audits.
 
-By using solutions like [Snyk](https://snyk.io), which generates SBOMs for both containers and applications, you can further enhance security across the entire software lifecycle. Snyk integrates with container registries and CI/CD pipelines to scan images for known vulnerabilities and ensure that your SBOMs are always up-to-date with the latest security information.
-
-Using policy enforcement tools like Gatekeeper and Ratify ensures that only images with valid SBOMs and no unresolved vulnerabilities are deployed. This approach automates compliance, facilitates audit-readiness, and ensures adherence to regulatory frameworks during audits and reviews.
+By using solutions like [Snyk](https://snyk.io), which generates SBOMs for both containers and applications, you can further enhance security across the entire software lifecycle. This allows policy enforcement tools like Gatekeeper and Ratify ensures that only images with valid SBOMs and no unresolved vulnerabilities are deployed. This approach automates compliance, facilitates audit-readiness, and ensures adherence to regulatory frameworks during audits and reviews.
 
 ## What is ORAS?
 
