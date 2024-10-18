@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"os"
 
 	v1 "github.com/opencontainers/image-spec/specs-go/v1"
@@ -12,9 +11,19 @@ import (
 	"oras.land/oras-go/v2/registry/remote"
 	"oras.land/oras-go/v2/registry/remote/auth"
 	"oras.land/oras-go/v2/registry/remote/retry"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func main() {
+	// Initialize the logger
+	logger, err := zap.NewDevelopment()
+	if err != nil {
+		// Handle logger initialization errors appropriately
+		logger.Fatal("Failed to initialize logger:", err)
+	}
+	defer logger.Sync() // Ensure logs are flushed
+
 	// Define flags for the inputs
 	sbom := flag.String("sbom", "", "Path to the SBOM file (required)")
 	registryURL := flag.String("registry", "", "Registry URL (required)")
@@ -26,7 +35,7 @@ func main() {
 
 	// Check if all flags are provided
 	if *sbom == "" || *registryURL == "" || *registryUsername == "" || *registryPassword == "" || *imageTag == "" {
-		fmt.Println("Error: all flags --sbom, --registry, --registry-username, --registry-password, and --image-tag are required.")
+		logger.Error("Error: all flags --sbom, --registry, --registry-username, --registry-password, and --image-tag are required.")
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -34,41 +43,46 @@ func main() {
 	// 0. Create a file store for SBOM
 	fs, err := file.New("/tmp/")
 	if err != nil {
-		panic(err)
+		logger.Fatal("Error creating file store:", err)
 	}
 	defer fs.Close()
 
 	ctx := context.Background()
 
-	// 1. Add SBOM file to the file store
+	// 1. Check if SBOM file exists
+	if _, err := os.Stat(*sbom); os.IsNotExist(err) {
+		logger.Fatal("Error: SBOM file", *sbom, "does not exist.")
+	}
+
+	// 2. Add SBOM file to the file store
 	mediaType := "application/spdx+json" // SBOM artifact type
 	fileName := *sbom
 	fileDescriptor, err := fs.Add(ctx, fileName, mediaType, "")
 	if err != nil {
-		panic(err)
+		logger.Fatal("Error adding SBOM to file store:", err)
 	}
-	fmt.Printf("File descriptor for SBOM: %v\n", fileDescriptor)
+	logger.Info("File descriptor for SBOM:", zap.String("file_descriptor", fileDescriptor))
 
-	// 2. Pack the SBOM file into a manifest
+	// 3. Pack the SBOM file into a manifest
 	artifactType := "application/spdx+json" // Define the artifact type
 	opts := oras.PackManifestOptions{
 		Layers: []v1.Descriptor{fileDescriptor},
 	}
 	manifestDescriptor, err := oras.PackManifest(ctx, fs, oras.PackManifestVersion1_1, artifactType, opts)
 	if err != nil {
-		panic(err)
+		logger.Fatal("Error packing SBOM manifest:", err)
 	}
-	fmt.Printf("Manifest descriptor: %v\n", manifestDescriptor)
+	logger.Info("Manifest descriptor:", zap.String("manifest_descriptor", manifestDescriptor))
 
 	tag := *imageTag
 	if err = fs.Tag(ctx, manifestDescriptor, tag); err != nil {
-		panic(err)
+		logger.Fatal("Error tagging SBOM manifest:", err)
 	}
 
-	// 3. Connect to the remote repository
+	// 4. Connect to the remote repository
 	repo, err := remote.NewRepository(*registryURL)
 	if err != nil {
-		panic(err)
+		logger.Fatal("Error creating remote repository:", err)
 	}
 
 	// Use authentication if provided
@@ -81,11 +95,11 @@ func main() {
 		}),
 	}
 
-	// 4. Copy the SBOM from the file store to the remote repository
+	// 5. Copy the SBOM from the file store to the remote repository
 	_, err = oras.Copy(ctx, fs, tag, repo, tag, oras.DefaultCopyOptions)
 	if err != nil {
-		panic(err)
+		logger.Fatal("Error copying SBOM to remote repository:", err)
 	}
 
-	fmt.Println("SBOM successfully attached to the image.")
+	logger.Info("SBOM successfully attached to the image.")
 }
