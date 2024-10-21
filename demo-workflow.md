@@ -88,3 +88,20 @@ kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 ```
 
 Expected Output: `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified`
+
+## Artifactory Setup
+Authenticating with Artifactory:
+
+```bash
+echo $ARTIFACTORY_PAT | oras login artifactory.your-company.com -u ARTIFACTORY_USERNAME --password-stdin
+```
+
+Pushing an artifact to Artifactory:
+
+```bash
+oras push artifactory.your-company.com/$ARTIFACTORY_OCI_REPOSITORY/myartifact:v1 --artifact-type application/text ./myartifact.txt
+```
+
+Pulling an artifact from Artifactory
+
+
