@@ -56,6 +56,7 @@ kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=ratify -n g
 kubectl create ns sbom-demo
 echo "created demo namespace"
 
+sleep 10
 echo "Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier"
 kubectl apply -f ./manifests/resources/gatekeeper/
 kubectl apply -f ./manifests/resources/ratify/

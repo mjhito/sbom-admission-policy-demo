@@ -104,4 +104,10 @@ oras push artifactory.your-company.com/$ARTIFACTORY_OCI_REPOSITORY/myartifact:v1
 
 Pulling an artifact from Artifactory
 
+```bash
+oras pull artifactory.your-company.com/$ARTIFACTORY_OCI_REPOSITORY/myartifact:v1
+```
 
+Addtional Registy configuration can be found here: [def]
+
+[def]: https://oras.land/docs/compatible_oci_registries/
