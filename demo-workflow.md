@@ -108,6 +108,6 @@ Pulling an artifact from Artifactory
 oras pull artifactory.your-company.com/$ARTIFACTORY_OCI_REPOSITORY/myartifact:v1
 ```
 
-Addtional Registy configuration can be found here: [def]
+Addtional Registy configuration can be found here: [ORAS-Registry-Configuration]
 
-[def]: https://oras.land/docs/compatible_oci_registries/
+[ORAS-Registry-Configuration]: https://oras.land/docs/compatible_oci_registries/
