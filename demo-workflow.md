@@ -46,7 +46,7 @@ oras pull docker.io/$REGISTRY_USERNAME/snyk-juice-shop@$SBOM_SHA
 **Run the verified deployment**
 
 ```bash
-kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
+kubec
 ```
 
 Expected Output: `pod/verified created`

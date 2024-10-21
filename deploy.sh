@@ -6,7 +6,8 @@ IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash deploy.sh [--kind] [--demo]"
+    echo "Usage: bash deploy.sh [--kind] [--artifactory] [--demo] [--all]"
+    echo "$*"
     exit 1
 }
 
@@ -24,7 +25,7 @@ function check_required_files {
     for file in "./setenv.sh" "./scripts/prepare.sh"; do
         if [[ ! -f "$file" ]]; then
             echo "Error: Required file $file is missing"
-            exit 1
+            print_usage "$0"
         fi
     done
 }
@@ -38,8 +39,7 @@ check_required_files
 
 # Check if the correct number of arguments are provided
 if [ $# -eq 0 ]; then
-    print_usage
-    exit 1
+    print_usage "$0"
 fi
 
 # Check environment variables exist
@@ -62,6 +62,7 @@ check_env_vars
 # Flags
 deploy_kind=false
 deploy_demo=false
+deploy_artifactory=false
 
 # Parse the flags
 for arg in "$@"; do
@@ -69,12 +70,19 @@ for arg in "$@"; do
         --all)
             deploy_kind=true
             deploy_demo=true
+            deploy_artifactory=true
             ;;
         --kind)
             deploy_kind=true
             ;;
         --demo)
             deploy_demo=true
+            ;;
+        --artifactory)
+            deploy_artifactory=true
+            ;;
+        --help)
+            print_usage
             ;;
         *)
             echo "Invalid argument: $arg"
@@ -99,4 +107,13 @@ if $deploy_demo; then
         exit 1
     fi
     . ./scripts/deploy-demo.sh
+fi
+
+# Deploy Artifactory if the flag is set
+if $deploy_artifactory; then
+    if [[ ! -f "./scripts/deploy-artifactory.sh" ]]; then
+        echo "Error: ./scripts/deploy-artifactory.sh script is missing."
+        exit 1
+    fi
+    . ./scripts/deploy-artifactory.sh
 fi

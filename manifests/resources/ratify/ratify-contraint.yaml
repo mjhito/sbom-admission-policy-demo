@@ -9,5 +9,4 @@ spec:
       - apiGroups: ["*"]
         kinds:
         - Pod
-        - Deployment
     namespaces: ["sbom-demo"]

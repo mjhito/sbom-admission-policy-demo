@@ -20,7 +20,7 @@ helm install gatekeeper/gatekeeper  \
     --set mutatingWebhookTimeoutSeconds=2 \
     --set externaldataProviderResponseCacheTTL=10s
 
-kubectl create secret docker-registry ratify-regcred --namespace=gatekeeper-system \
+kubectl create secret docker-registry ratify-regcred -n gatekeeper-system \
     --docker-server="${REGISTRY_URL}" \
     --docker-username="${REGISTRY_USERNAME}" \
     --docker-password="${REGISTRY_PASSWORD}" \
@@ -30,27 +30,31 @@ echo "deploying ratify"
 # Deploy Ratify
 helm repo add ratify https://ratify-project.github.io/ratify
 
-# download the notary "erification certificate
+# download the notary CaA certificate
 curl -sSLO https://raw.githubusercontent.com/deislabs/ratify/main/test/testdata/notation.crt
 # install ratify
 helm install ratify \
-    ratify/ratify --atomic \
-    --namespace gatekeeper-system \
-    --set-file notationCerts={./notation.crt} \
-    --set featureFlags.RATIFY_CERT_ROTATION=true \
-    --set policy.useRego=true \
-    --set oras.authProviders.k8secretsEnabled=true \
-    --set sbom.enabled=true \
-    # --set sbom.maximumAge="24h"
-    # --set sbom.notaryProjectSignatureRequired=true \
-    # --set sbom.disallowedLicenses={"MPL"}
-    # --set sbom.disallowedPackages[0].name={"busybox"}
-    # --set vulnerabilityreport.enabled=true \
-    # --set vulnerabilityreport.maximumAge="24h" \
-    # --set vulnerabilityreport.notaryProjectSignatureRequired=true \
-    # --set vulnerabilityreport.disallowedSeverities="{high,critical}"
+  ratify/ratify --atomic \
+  --namespace gatekeeper-system \
+  --set-file notationCerts={./notation.crt} \
+  --set featureFlags.RATIFY_CERT_ROTATION=true \
+  --set policy.useRego=true \
+  --set oras.authProviders.k8secretsEnabled=true \
+  --set sbom.enabled=true \
+  --set sbom.maximumAge="24h" \
+  --set sbom.notaryProjectSignatureRequired=false \
+  --set sbom.disallowedLicenses={"MPL"} \
+  --set sbom.disallowedPackages[0].name="busybox" \
+  --set sbom.disallowedPackages[0].version="1.30.0" \
+  --set vulnerabilityreport.enabled=true \
+  --set vulnerabilityreport.maximumAge="24h" \
+  --set vulnerabilityreport.notaryProjectSignatureRequired=false \
+  --set vulnerabilityreport.disallowedSeverities="{high,critical}"
 
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=ratify -n gatekeeper-system --timeout=90s
+
+kubectl create ns sbom-demo
+echo "created demo namespace"
 
 echo "Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier"
 kubectl apply -f ./manifests/resources/gatekeeper/

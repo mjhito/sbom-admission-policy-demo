@@ -4,7 +4,7 @@ set -eou pipefail
 
 # Function to check for required tools
 check_required_tools() {
-    local tools=("docker" "kubectl" "helm" "kind")
+    local tools=("docker" "kubectl" "helm" "kind" "aws")
     for tool in "${tools[@]}"; do
         if ! command -v "$tool" &> /dev/null; then
             echo "Error: $tool is not installed."

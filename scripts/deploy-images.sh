@@ -13,7 +13,7 @@ function print_usage {
 docker build -t "$REGISTRY"/"$IMAGE_TAG" . --push
 
 # Attach SBOM to the image
-./bin/sbom-attach --sbom="$SBOM_FILE" \
+./sbom-attach/bin --sbom="$SBOM_FILE" \
     --registry="$REGISTRY" \
     --registry-username="$REGISTRY_USERNAME" \
     --registry-password="$REGISTRY_PASSWORD" \

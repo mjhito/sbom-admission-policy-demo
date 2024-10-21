@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: verified-deployment
-        image: iuriikogan/snyk-juice-shop:linux-amd64
+        image: docker.io/iuriikogan/snyk-juice-shop@sha256:97e7c99eb657bcc631232b747ff7904b2fea40b7301b7c4658e62f6ec6a82dfd
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
