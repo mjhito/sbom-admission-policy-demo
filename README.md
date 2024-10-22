@@ -102,23 +102,14 @@ vi setenv.sh
 
 Software Bill of Materials (SBOMs) provide detailed insights into the components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses in regulated sectors.
 
-ORAS (OCI Registry As Storage) simplifies SBOM management by allowing SBOMs to be attached directly to OCI container images as artifacts. This enables seamless integration of SBOMs into the software supply chain, ensuring that each image includes a verifiable record of its components. By associating SBOMs with images and enforcing policies that only permit the deployment of images containing SBOMs, organizations can meet regulatory requirements around software transparency and vulnerability management.
-
-Additionally, tools like [Snyk](https://snyk.io) can generate SBOMs for container images and code repositories, providing detailed reports on both open-source dependencies and vulnerabilities in applications. This makes it easier to identify risks early in the development process and maintain security compliance across the entire software stack.
+ORAS (OCI Registry As Storage) simplifies SBOM management by allowing SBOMs to be attached directly to OCI container images as artifacts. This enables seamless integration of SBOMs into the software supply chain, ensuring that each image includes a verifiable record of its components. By associating SBOMs with images and enforcing policies that only permit the deployment of images containing SBOMs.
 
 ### How ORAS Facilitates SBOM Verification:
-ORAS leverages OCI artifact support to store SBOMs alongside container images within OCI-compliant registries. This means that when you push an image, you can also push its associated SBOM as an artifact, enabling SBOM retrieval and verification directly from the registry. This approach ensures that SBOMs are tightly coupled with the software they describe, simplifying compliance with cybersecurity regulations by making SBOM verification part of the deployment process.
-
-### Regulatory Benefits:
-- **NIS Directive:** Ensures critical infrastructure operators follow cybersecurity best practices by mandating security incident reporting and proactive risk management, including software transparency through SBOMs.
-- **DORA:** Focuses on resilience in the financial sector’s IT systems by requiring secure software deployment practices, including SBOMs for tracking software vulnerabilities.
-- **Other Cybersecurity Regulations:** Similar regulations (e.g., Executive Order 14028 in the U.S.) require SBOM adoption to enhance software supply chain security.
-
+ORAS leverages OCI artifact support to store SBOMs alongside container images within OCI-compliant registries. This means that when you push an image, you can also push its associated SBOM as an artifact, enabling SBOM retrieval and verification directly from the registry. This approach ensures that SBOMs are tightly coupled with the software they describe, simplifying compliance with with NIS Directive, Executive Order 14028, etc.
+ 
 ## Why Should I integrate SBOMs into my container deployment pipelines/enforce SBOMs via policy?
 
 Integrating SBOMs into your container deployment pipelines ensures that every image has passed critical security and compliance checks. With tools like ORAS, you can attach SBOMs directly to your OCI images, enabling automated verification before deployment. This helps identify vulnerabilities early, protects against attacks, and provides an auditable trail that demonstrates compliance during security audits.
-
-By using solutions like [Snyk](https://snyk.io), which generates SBOMs for both containers and applications, you can further enhance security across the entire software lifecycle. This allows policy enforcement tools like Gatekeeper and Ratify ensures that only images with valid SBOMs and no unresolved vulnerabilities are deployed. This approach automates compliance, facilitates audit-readiness, and ensures adherence to regulatory frameworks during audits and reviews.
 
 ## What is ORAS?
 
