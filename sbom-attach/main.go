@@ -6,23 +6,20 @@ import (
 	"os"
 
 	v1 "github.com/opencontainers/image-spec/specs-go/v1"
+	"golang.org/x/exp/slog"
 	oras "oras.land/oras-go/v2"
 	"oras.land/oras-go/v2/content/file"
 	"oras.land/oras-go/v2/registry/remote"
 	"oras.land/oras-go/v2/registry/remote/auth"
 	"oras.land/oras-go/v2/registry/remote/retry"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
 
 func main() {
 	// Initialize the logger
-	logger, err := zap.NewDevelopment()
-	if err != nil {
-		// Handle logger initialization errors appropriately
-		logger.Fatal("Failed to initialize logger:", err)
-	}
-	defer logger.Sync() // Ensure logs are flushed
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		AddSource: true,
+		Level:     slog.LevelDebug,
+	}))
 
 	// Define flags for the inputs
 	sbom := flag.String("sbom", "", "Path to the SBOM file (required)")
@@ -43,7 +40,8 @@ func main() {
 	// 0. Create a file store for SBOM
 	fs, err := file.New("/tmp/")
 	if err != nil {
-		logger.Fatal("Error creating file store:", err)
+		logger.Error("Error creating file store", slog.Any("error", err))
+		os.Exit(1)
 	}
 	defer fs.Close()
 
@@ -51,7 +49,8 @@ func main() {
 
 	// 1. Check if SBOM file exists
 	if _, err := os.Stat(*sbom); os.IsNotExist(err) {
-		logger.Fatal("Error: SBOM file", *sbom, "does not exist.")
+		logger.Error("Error: SBOM file does not exist", slog.String("sbom", *sbom))
+		os.Exit(1)
 	}
 
 	// 2. Add SBOM file to the file store
@@ -59,9 +58,10 @@ func main() {
 	fileName := *sbom
 	fileDescriptor, err := fs.Add(ctx, fileName, mediaType, "")
 	if err != nil {
-		logger.Fatal("Error adding SBOM to file store:", err)
+		logger.Error("Error adding SBOM to file store", slog.Any("error", err))
+		os.Exit(1)
 	}
-	logger.Info("File descriptor for SBOM:", zap.String("file_descriptor", fileDescriptor))
+	logger.Info("File descriptor for SBOM", slog.Any("file_descriptor", fileDescriptor))
 
 	// 3. Pack the SBOM file into a manifest
 	artifactType := "application/spdx+json" // Define the artifact type
@@ -70,19 +70,22 @@ func main() {
 	}
 	manifestDescriptor, err := oras.PackManifest(ctx, fs, oras.PackManifestVersion1_1, artifactType, opts)
 	if err != nil {
-		logger.Fatal("Error packing SBOM manifest:", err)
+		logger.Error("Error packing SBOM manifest", slog.Any("error", err))
+		os.Exit(1)
 	}
-	logger.Info("Manifest descriptor:", zap.String("manifest_descriptor", manifestDescriptor))
+	logger.Info("Manifest descriptor", slog.Any("manifest_descriptor", manifestDescriptor))
 
 	tag := *imageTag
 	if err = fs.Tag(ctx, manifestDescriptor, tag); err != nil {
-		logger.Fatal("Error tagging SBOM manifest:", err)
+		logger.Error("Error tagging SBOM manifest", slog.Any("error", err))
+		os.Exit(1)
 	}
 
 	// 4. Connect to the remote repository
 	repo, err := remote.NewRepository(*registryURL)
 	if err != nil {
-		logger.Fatal("Error creating remote repository:", err)
+		logger.Error("Error creating remote repository", slog.Any("error", err))
+		os.Exit(1)
 	}
 
 	// Use authentication if provided
@@ -98,7 +101,8 @@ func main() {
 	// 5. Copy the SBOM from the file store to the remote repository
 	_, err = oras.Copy(ctx, fs, tag, repo, tag, oras.DefaultCopyOptions)
 	if err != nil {
-		logger.Fatal("Error copying SBOM to remote repository:", err)
+		logger.Error("Error copying SBOM to remote repository", slog.Any("error", err))
+		os.Exit(1)
 	}
 
 	logger.Info("SBOM successfully attached to the image.")
