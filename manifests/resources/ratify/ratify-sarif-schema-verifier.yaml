@@ -7,4 +7,5 @@ spec:
   artifactTypes: vnd.snyk.vulnerability-report.sarif.v1
   parameters:
     schemas:
-      application/sarif+json: https://json.schemastore.org/sarif-2.1.0
+      # application/sarif+json: https://json.schemastore.org/sarif-2.1.0
+      application/sarif+json: https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json

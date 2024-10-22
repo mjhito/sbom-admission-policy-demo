@@ -2,27 +2,29 @@
 
 ## Prereqs
 
+TODO
+
 ## Worflow
 
-**Build the Image**
+### Build the Image
 
 ```bash
 docker build -t $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64 . --push
 ```
 
-**Test the Image**
+### Test the Image
 
 ```bash
 snyk container test $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64
 ```
 
-**Create an SBOM**
+### Create an SBOM
 
 ```bash
 snyk container sbom $REGISTRY_USERNAME/snyk-juice-shop:linux-am64 --format=spdx2.3+json > bom.spdx.json
 ```
 
-**Attach the SBOM to the image with ORAS**
+### Attach the SBOM to the image with ORAS
 
 ```bash
 oras attach \
@@ -31,22 +33,22 @@ docker.io/"$REGISTRY_USERNAME"/snyk-juice-shop:linux-amd64 \
 bom.spdx.json
 ```
 
-**Inspect the Image**
+### Inspect the Image
 
 ```bash
 oras discover docker.io/$REGISTRY_USERNAME/snyk-juice-shop:linux-amd64
 ```
 
-**Pull the SBOM**
+### Pull the SBOM
 
 ```bash
 oras pull docker.io/$REGISTRY_USERNAME/snyk-juice-shop@$SBOM_SHA
 ```
 
-**Run the verified deployment**
+### Run the verified deployment
 
 ```bash
-kubec
+kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
 ```
 
 Expected Output: `pod/verified created`
@@ -81,7 +83,7 @@ Show logs on Ratify pod in Gatekeeper-System namespace
 }
 ```
 
-**Run the unverified deployment**
+### Run the unverified deployment
 
 ```bash
 kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
@@ -89,7 +91,8 @@ kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
 
 Expected Output: `Error from server (Forbidden): admission webhook "validation.gatekeeper.sh" denied the request: [ratify-constraint] Subject failed verification: docker.io/iuriikogan/unverified`
 
-## Artifactory Setup
+### Artifactory Setup
+
 Authenticating with Artifactory:
 
 ```bash
