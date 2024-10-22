@@ -1,11 +1,11 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: VulnerabilityReportValidation
+kind: RatifyVerification
 metadata:
-  name: vulnerability-report-validation-constraint
+  name: ratify-constraint
 spec:
   enforcementAction: deny
   match:
     kinds:
-      - apiGroups: [""]
-        kinds: ["Pod"]
+      - apiGroups: ["*"]
+        kinds: ["*"]
     namespaces: ["sbom-demo"]
