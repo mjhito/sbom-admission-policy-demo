@@ -14,6 +14,15 @@ import (
 	"oras.land/oras-go/v2/registry/remote/retry"
 )
 
+// getEnvOrFlag checks if an environment variable is set and returns its value,
+// otherwise falls back to the provided flag value.
+func getEnvOrFlag(envVar, flagValue string) string {
+	if value, exists := os.LookupEnv(envVar); exists {
+		return value
+	}
+	return flagValue
+}
+
 func main() {
 	// Initialize the logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
@@ -30,9 +39,16 @@ func main() {
 
 	flag.Parse()
 
-	// Check if all flags are provided
-	if *sbom == "" || *registryURL == "" || *registryUsername == "" || *registryPassword == "" || *imageTag == "" {
-		logger.Error("Error: all flags --sbom, --registry, --registry-username, --registry-password, and --image-tag are required.")
+	// Fetch values from environment variables or fall back to flags
+	sbomFile := getEnvOrFlag("SBOM_FILE", *sbom)
+	registry := getEnvOrFlag("REGISTRY_URL", *registryURL)
+	username := getEnvOrFlag("REGISTRY_USERNAME", *registryUsername)
+	password := getEnvOrFlag("REGISTRY_PASSWORD", *registryPassword)
+	tag := getEnvOrFlag("IMAGE_TAG", *imageTag)
+
+	// Check if all required inputs are provided
+	if sbomFile == "" || registry == "" || username == "" || password == "" || tag == "" {
+		logger.Error("Error: missing required inputs. You must set the environment variables or provide flags for --sbom, --registry, --registry-username, --registry-password, and --image-tag.")
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -48,15 +64,14 @@ func main() {
 	ctx := context.Background()
 
 	// 1. Check if SBOM file exists
-	if _, err := os.Stat(*sbom); os.IsNotExist(err) {
-		logger.Error("Error: SBOM file does not exist", slog.String("sbom", *sbom))
+	if _, err := os.Stat(sbomFile); os.IsNotExist(err) {
+		logger.Error("Error: SBOM file does not exist", slog.String("sbom", sbomFile))
 		os.Exit(1)
 	}
 
 	// 2. Add SBOM file to the file store
 	mediaType := "application/spdx+json" // SBOM artifact type
-	fileName := *sbom
-	fileDescriptor, err := fs.Add(ctx, fileName, mediaType, "")
+	fileDescriptor, err := fs.Add(ctx, sbomFile, mediaType, "")
 	if err != nil {
 		logger.Error("Error adding SBOM to file store", slog.Any("error", err))
 		os.Exit(1)
@@ -75,14 +90,13 @@ func main() {
 	}
 	logger.Info("Manifest descriptor", slog.Any("manifest_descriptor", manifestDescriptor))
 
-	tag := *imageTag
 	if err = fs.Tag(ctx, manifestDescriptor, tag); err != nil {
 		logger.Error("Error tagging SBOM manifest", slog.Any("error", err))
 		os.Exit(1)
 	}
 
 	// 4. Connect to the remote repository
-	repo, err := remote.NewRepository(*registryURL)
+	repo, err := remote.NewRepository(registry)
 	if err != nil {
 		logger.Error("Error creating remote repository", slog.Any("error", err))
 		os.Exit(1)
@@ -92,9 +106,9 @@ func main() {
 	repo.Client = &auth.Client{
 		Client: retry.DefaultClient,
 		Cache:  auth.NewCache(),
-		Credential: auth.StaticCredential(*registryURL, auth.Credential{
-			Username: *registryUsername,
-			Password: *registryPassword,
+		Credential: auth.StaticCredential(registry, auth.Credential{
+			Username: username,
+			Password: password,
 		}),
 	}
 

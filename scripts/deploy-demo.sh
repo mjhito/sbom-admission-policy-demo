@@ -58,5 +58,5 @@ echo "created demo namespace"
 
 sleep 10
 echo "Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier"
-kubectl apply -f ./manifests/resources/gatekeeper/
-kubectl apply -f ./manifests/resources/ratify/
+kubectl create -f ./manifests/resources/gatekeeper/
+kubectl create -f ./manifests/resources/ratify/
