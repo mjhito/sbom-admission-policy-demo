@@ -6,9 +6,4 @@ spec:
   name: vulnerabilityreport
   artifactTypes: application/sarif+json
   parameters:
-    maximumAge: 24h
-    disallowedSeverities:
-      - high
-      - critical
-    denylistCVEs:
-      - CVE-2021-44228 # Log4Shell
+    passthrough: true

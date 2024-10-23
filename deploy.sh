@@ -14,11 +14,33 @@ function print_usage {
 # Function to handle errors globally and print a custom error message
 function handle_error {
     echo "Error on line $1"
+    stop_spinner
     exit 1
 }
 
 # Trap any error and call the handle_error function
 trap 'handle_error $LINENO' ERR
+
+# Function to show a spinner while the script is running
+function start_spinner {
+    local delay=0.1
+    local spinstr='|/-\'
+    while true; do
+        for i in $(seq 0 3); do
+            printf "\r${spinstr:i:1} "
+            sleep $delay
+        done
+    done &
+    SPINNER_PID=$! # Store the PID of the background spinner
+}
+
+# Function to stop the spinner
+function stop_spinner {
+    if [[ -n "$SPINNER_PID" ]]; then
+        kill "$SPINNER_PID" 2>/dev/null
+        printf "\r   \n"
+    fi
+}
 
 # Ensure required scripts are available before proceeding
 function check_required_files {
@@ -97,7 +119,13 @@ if $deploy_kind; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
     fi
+    # Start spinner before running the long task
+    start_spinner
+    
     . ./scripts/deploy-kind.sh
+    
+    # Stop the spinner after the task completes
+    stop_spinner
 fi
 
 # Deploy the demo if the flag is set
@@ -106,7 +134,13 @@ if $deploy_demo; then
         echo "Error: ./scripts/deploy-demo.sh script is missing."
         exit 1
     fi
+    # Start spinner
+    start_spinner
+    
     . ./scripts/deploy-demo.sh
+    
+    # Stop spinner
+    stop_spinner
 fi
 
 # Deploy Artifactory if the flag is set
@@ -115,5 +149,11 @@ if $deploy_artifactory; then
         echo "Error: ./scripts/deploy-artifactory.sh script is missing."
         exit 1
     fi
+    # Start spinner
+    start_spinner
+    
     . ./scripts/deploy-artifactory.sh
+    
+    # Stop spinner
+    stop_spinner
 fi

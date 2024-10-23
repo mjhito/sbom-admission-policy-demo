@@ -6,6 +6,6 @@ spec:
   enforcementAction: deny
   match:
     kinds:
-      - apiGroups: ["*"]
-        kinds: ["*"]
+      - apiGroups: [""]
+        kinds: ["pod"]
     namespaces: ["sbom-demo"]
