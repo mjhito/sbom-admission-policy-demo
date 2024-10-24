@@ -29,7 +29,7 @@ spec:
         import future.keywords.in
         import future.keywords.every
 
-        default severity_threshold := 0  # Adjust severity threshold for violations
+        default severity_threshold := 1.0  # Adjust severity threshold for violations
 
         # Violation rule: Checks for vulnerabilities with high severity.
         violation[{"msg": msg}] {
