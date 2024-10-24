@@ -60,4 +60,5 @@ kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=gatekeeper 
 
 echo "*---- Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier ----*"
 kubectl create -f ./manifests/resources/gatekeeper/
+sleep 10
 kubectl create -f ./manifests/resources/ratify/
