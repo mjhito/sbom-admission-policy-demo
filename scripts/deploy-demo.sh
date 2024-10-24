@@ -58,7 +58,8 @@ echo "*---- created demo namespace ----*"
 
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=gatekeeper -n gatekeeper-system --timeout=90s
 
-echo "*---- Deploying Gatekeeper Templates and Contrainsts, and Ratify Verifier ----*"
-kubectl create -f ./manifests/resources/gatekeeper/
-sleep 10
+echo "*---- Deploying Gatekeeper Templates and Constraints, and Ratify Verifiers ----*"
+kubectl create -f manifests/resources/gatekeeper/gatekeeper-sbom-constraint-template.yaml
+# kubectl create -f manifests/resources/gatekeeper/gatekeeper-vulns-constraint-template.yaml
+kubectl create -f manifests/resources/gatekeeper/gatekeeper-sbom-constraint.yaml
 kubectl create -f ./manifests/resources/ratify/

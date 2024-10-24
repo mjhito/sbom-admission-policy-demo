@@ -6,11 +6,11 @@ spec:
   name: sbom
   artifactTypes: application/spdx+json
   parameters:
-    disallowedPackages:
-    - name: curl
-    - name: wget
-    - name: busybox
-      version: 1.36.1-r0
-    disallowedLicenses: 
-    - MPL
-    - GPL
+    # disallowedPackages:
+    # - name: curl
+    # - name: wget
+    # - name: busybox
+    #   version: 1.36.1-r0
+    # disallowedLicenses: 
+    # - MPL
+    # - GPL

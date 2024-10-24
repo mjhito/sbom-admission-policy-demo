@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Exit the script on any error, unset variable, or command failure in a pipeline.
-# set -ou pipefail
+set -ou pipefail
 IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status
@@ -138,6 +138,7 @@ if $deploy_demo; then
     start_spinner
     
     . ./scripts/deploy-demo.sh
+    # kubectl create -f manifests/resources/gatekeeper/gatekeeper-vulns-constraint.yaml ## hack to wait for crds
     
     # Stop spinner
     stop_spinner

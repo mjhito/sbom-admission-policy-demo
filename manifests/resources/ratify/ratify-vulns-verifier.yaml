@@ -1,9 +1,9 @@
-apiVersion: config.ratify.deislabs.io/v1beta1
-kind: Verifier
-metadata:
-  name: verifier-vulnerabilityreport
-spec:
-  name: vulnerabilityreport
-  artifactTypes: application/sarif+json
-  parameters:
-    passthrough: true
+# apiVersion: config.ratify.deislabs.io/v1beta1
+# kind: Verifier
+# metadata:
+#   name: verifier-vulnerabilityreport
+# spec:
+#   name: vulnerabilityreport
+#   artifactTypes: application/sarif+json
+#   parameters:
+#     passthrough: true
