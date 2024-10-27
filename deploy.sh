@@ -119,13 +119,9 @@ if $deploy_kind; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
     fi
-    # Start spinner before running the long task
-    start_spinner
-    
+
     . ./scripts/deploy-kind.sh
     
-    # Stop the spinner after the task completes
-    stop_spinner
 fi
 
 # Deploy the demo if the flag is set
