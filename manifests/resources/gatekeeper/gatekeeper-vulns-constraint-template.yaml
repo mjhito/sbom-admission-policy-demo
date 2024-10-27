@@ -18,55 +18,52 @@ spec:
       rego: |
         package vulnerabilityreportvalidation
 
-        # This template defines policy for SARIF vulnerability report validation.
-        # It checks the following:
-        # - If the SARIF report has valid data
-        # - If any reported vulnerability exceeds a severity threshold
-        # - If remediation is available for high-severity vulnerabilities
-        # - Only considers vulnerabilities with a valid CVSS score
+        # Default threshold for flagging high-severity vulnerabilities
+        default severity_threshold := 7.0
 
-        import future.keywords.if
-        import future.keywords.in
-        import future.keywords.every
+        # Ensure SARIF structure is valid before processing (checks core SARIF elements)
+        input_is_valid {
+          input.review.object.sarif.version == "2.1.0"
+          input.review.object.sarif.runs[_]
+        }
 
-        default severity_threshold := 1.0  # Adjust severity threshold for violations
-
-        # Violation rule: Checks for vulnerabilities with high severity.
+        # Violation: Identifies high-severity vulnerabilities based on severity threshold
         violation[{"msg": msg}] {
+          input_is_valid
           sarif_run := input.review.object.sarif.runs[_]
           vuln := sarif_run.tool.driver.rules[_]
           is_high_severity(vuln)
-          msg := sprintf("Vulnerability detected: %s (ID: %s, Severity: %f)", [vuln.fullDescription.text, vuln.id, vuln.properties.cvssv3_baseScore])
+          msg := sprintf("High-severity vulnerability detected: %s (ID: %s, Severity: %f)", [vuln.fullDescription.text, vuln.id, vuln.properties.cvssv3_baseScore])
         }
 
-        # Utility rule: Checks if a vulnerability exceeds the severity threshold
+        # Utility to check if vulnerability meets/exceeds severity threshold
         is_high_severity(vuln) {
           vuln.properties.cvssv3_baseScore >= severity_threshold
         }
 
-        # Violation rule: Ensures vulnerabilities have available remediation steps
+        # Violation: Ensure high-severity vulnerabilities have remediation information
         violation[{"msg": msg}] {
+          input_is_valid
           sarif_run := input.review.object.sarif.runs[_]
           vuln := sarif_run.tool.driver.rules[_]
           vuln.properties.cvssv3_baseScore >= severity_threshold
           no_remediation(vuln)
-          msg := sprintf("High severity vulnerability %s has no remediation steps.", [vuln.id])
+          msg := sprintf("High-severity vulnerability %s has no remediation steps.", [vuln.id])
         }
 
-        # Utility rule: Check if a vulnerability has no remediation
+        # Utility to check if a vulnerability lacks remediation details
         no_remediation(vuln) {
           vuln.help.markdown == ""
         }
 
-        # Violation rule: Ensure the SARIF report contains valid CVSS scores for each vulnerability
+        # Violation: Confirm all vulnerabilities contain valid CVSS scores
         violation[{"msg": msg}] {
+          input_is_valid
           sarif_run := input.review.object.sarif.runs[_]
           vuln := sarif_run.tool.driver.rules[_]
           not has_valid_cvss(vuln)
           msg := sprintf("Vulnerability %s does not have a valid CVSS score.", [vuln.id])
         }
 
-        # Utility rule: Check for valid CVSS score in vulnerability report
-        has_valid_cvss(vuln) {
-          vuln.properties.cvssv3_baseScore > 0
-        }
+        # Utility: Checks if a vulnerability has a valid CVSS score
+  
