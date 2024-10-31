@@ -12,8 +12,8 @@ function print_usage {
 echo "*---- deploying gatekeeper ----*"
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
 
-helm install gatekeeper gatekeeper/gatekeeper \
-  -name-template=gatekeeper \
+helm install gatekeeper/gatekeeper \
+  --name-template=gatekeeper \
   --namespace gatekeeper-system --create-namespace \
   --set enableExternalData=true \
   --set validatingWebhookTimeoutSeconds=5 \
