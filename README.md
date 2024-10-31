@@ -28,7 +28,7 @@ vi setenv.sh
 
 ```bash
 kubectl create ns sbom-demo
-kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
+kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:v1.0.2
 ```
 
 Expected Output: `pod/verified created`
