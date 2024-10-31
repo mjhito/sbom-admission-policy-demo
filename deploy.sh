@@ -143,17 +143,17 @@ if $deploy_demo; then
     stop_spinner
 fi
 
-# Deploy Artifactory if the flag is set
-if $deploy_artifactory; then
-    if [[ ! -f "./scripts/deploy-artifactory.sh" ]]; then
-        echo "Error: ./scripts/deploy-artifactory.sh script is missing."
-        exit 1
-    fi
-    # Start spinner
-    start_spinner
+# # Deploy Artifactory if the flag is set
+# if $deploy_artifactory; then
+#     if [[ ! -f "./scripts/deploy-artifactory.sh" ]]; then
+#         echo "Error: ./scripts/deploy-artifactory.sh script is missing."
+#         exit 1
+#     fi
+#     # Start spinner
+#     start_spinner
 
-    . ./scripts/deploy-artifactory.sh
+#     . ./scripts/deploy-artifactory.sh
 
-    # Stop spinner
-    stop_spinner
-fi
+#     # Stop spinner
+#     stop_spinner
+# fi
