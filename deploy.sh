@@ -134,7 +134,6 @@ if $deploy_demo; then
     start_spinner
     
     . ./scripts/deploy-demo.sh
-    kubectl create -f manifests/resources/demo/ 
     
     # Stop spinner
     stop_spinner
