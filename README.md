@@ -97,7 +97,8 @@ vi setenv.sh
 
 ## Artifactory ORAS Docs
 
-[ORAS Artifactory](https://jfrog.com/help/r/jfrog-artifactory-documentation/configure-oras-to-work-with-artifactory)
+[Artifactory - Authenticate ORAS](https://jfrog.com/help/r/jfrog-artifactory-documentation/configure-oras-to-work-with-artifactory)
+[Artifactory - Enable Referrers API](https://jfrog.com/help/r/jfrog-artifactory-documentation/use-referrers-rest-api-to-discover-oci-references)
 
 ## Why should I care about SBOMs?
 
