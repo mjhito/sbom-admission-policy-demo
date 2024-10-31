@@ -6,7 +6,7 @@ IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash deploy.sh [--kind] [--artifactory] [--demo] [--all]"
+    echo "Usage: bash deploy.sh [--kind] [--demo] [--all]"
     echo "$*"
     exit 1
 }
