@@ -54,6 +54,6 @@ kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=gatekeeper 
 
 echo "*---- Deploying Gatekeeper Templates and Constraints ----*"
 kubectl create -f manifests/resources/demo/
-# # kubectl create -f manifests/resources/gatekeeper/gatekeeper-vulns-constraint-template.yaml
+# kubectl create -f manifests/resources/gatekeeper/gatekeeper-vulns-constraint-template.yaml
 # kubectl create -f manifests/resources/gatekeeper/gatekeeper-sbom-constraint.yaml
 # kubectl create -f ./manifests/resources/ratify/

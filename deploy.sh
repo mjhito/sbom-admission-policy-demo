@@ -18,6 +18,8 @@ function handle_error {
     exit 1
 }
 
+SPINNER_PID=:-
+
 # Trap any error and call the handle_error function
 trap 'handle_error $LINENO' ERR
 
