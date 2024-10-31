@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -ou pipefail
+set -xou pipefail
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -12,7 +12,7 @@ function print_usage {
 echo "*---- deploying gatekeeper ----*"
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
 
-helm install gatekeeper/gatekeeper  \
+helm install gatekeeper/gatekeeper \
     --name-template=gatekeeper \
     --namespace gatekeeper-system --create-namespace \
     --set enableExternalData=true \
