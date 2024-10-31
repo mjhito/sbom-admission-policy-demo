@@ -95,6 +95,10 @@ vi setenv.sh
 
 **Continue with step 3 above.**
 
+## Artifactory ORAS Docs
+
+[ORAS Artifactory]<https://jfrog.com/help/r/jfrog-artifactory-documentation/configure-oras-to-work-with-artifactory>
+
 ## Why should I care about SBOMs?
 
 Software Bill of Materials (SBOMs) provide detailed insights into the components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses in regulated sectors.
