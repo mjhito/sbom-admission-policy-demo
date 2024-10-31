@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Exit the script on any error, unset variable, or command failure in a pipeline.
-set -ou pipefail
+set -uo pipefail
 IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash deploy.sh [--kind] [--artifactory] [--demo] [--all]"
+    echo "Usage: bash $0 [--kind] [--artifactory] [--demo] [--all]"
     echo "$*"
     exit 1
 }
@@ -21,6 +21,9 @@ function handle_error {
 # Trap any error and call the handle_error function
 trap 'handle_error $LINENO' ERR
 
+# Spinner PID
+SPINNER_PID=""
+
 # Function to show a spinner while the script is running
 function start_spinner {
     local delay=0.1
@@ -28,10 +31,11 @@ function start_spinner {
     while true; do
         for i in $(seq 0 3); do
             printf "\r${spinstr:i:1} "
-            sleep $delay
+            sleep "$delay"
         done
     done &
     SPINNER_PID=$! # Store the PID of the background spinner
+    trap stop_spinner EXIT # Ensure spinner stops on exit
 }
 
 # Function to stop the spinner
@@ -119,9 +123,7 @@ if $deploy_kind; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
     fi
-
     . ./scripts/deploy-kind.sh
-    
 fi
 
 # Deploy the demo if the flag is set
@@ -132,9 +134,7 @@ if $deploy_demo; then
     fi
     # Start spinner
     start_spinner
-    
     . ./scripts/deploy-demo.sh
-    
     # Stop spinner
     stop_spinner
 fi
@@ -147,9 +147,7 @@ if $deploy_artifactory; then
     fi
     # Start spinner
     start_spinner
-    
     . ./scripts/deploy-artifactory.sh
-    
     # Stop spinner
     stop_spinner
 fi
