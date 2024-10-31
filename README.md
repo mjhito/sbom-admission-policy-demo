@@ -97,7 +97,7 @@ vi setenv.sh
 
 ## Artifactory ORAS Docs
 
-[ORAS Artifactory]<https://jfrog.com/help/r/jfrog-artifactory-documentation/configure-oras-to-work-with-artifactory>
+[ORAS Artifactory](https://jfrog.com/help/r/jfrog-artifactory-documentation/configure-oras-to-work-with-artifactory)
 
 ## Why should I care about SBOMs?
 
