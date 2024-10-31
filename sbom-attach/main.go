@@ -54,9 +54,9 @@ func main() {
 	}
 
 	// 0. Create a file store for SBOM
-	fs, err := file.New("/tmp/")
+	file, err := file.CreateTemp("sbom")
 	if err != nil {
-		logger.Error("Error creating file store", slog.Any("error", err))
+		logger.Error("Error creating temp file", slog.Any("error", err))
 		os.Exit(1)
 	}
 	defer fs.Close()
@@ -71,7 +71,7 @@ func main() {
 
 	// 2. Add SBOM file to the file store
 	mediaType := "application/spdx+json" // SBOM artifact type
-	fileDescriptor, err := fs.Add(ctx, sbomFile, mediaType, "")
+	fileDescriptor, err := file.fd(file)
 	if err != nil {
 		logger.Error("Error adding SBOM to file store", slog.Any("error", err))
 		os.Exit(1)

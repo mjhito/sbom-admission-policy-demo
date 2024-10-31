@@ -1,0 +1,52 @@
+apiVersion: config.ratify.deislabs.io/v1beta1
+kind: Policy
+metadata:
+  name: "ratify-vulns-policy"
+spec:
+  type: "rego-policy"
+  parameters:
+    passthroughEnabled: true
+    policy: |
+      package ratify.policy
+
+      default valid := false
+
+      # The SARIF report is valid if there are no verification failures
+      valid {
+        not failed_verify(input.review.object.sarif)
+      }
+
+      # Failed verification checks
+      failed_verify(sarif) {
+        some run in sarif.runs
+        some rule in run.tool.driver.rules
+        not meets_severity_threshold(rule)
+      }
+
+      failed_verify(sarif) {
+        some run in sarif.runs
+        some rule in run.tool.driver.rules
+        not has_remediation(rule)
+      }
+
+      failed_verify(sarif) {
+        some run in sarif.runs
+        some rule in run.tool.driver.rules
+        not has_valid_cvss(rule)
+      }
+
+      # Helper rule: Checks if a vulnerability meets the severity threshold
+      meets_severity_threshold(rule) {
+        rule.properties.cvssv3_baseScore >= 7.0
+      }
+
+      # Helper rule: Checks if a vulnerability has remediation steps
+      has_remediation(rule) {
+        rule.properties.cvssv3_baseScore >= 7.0
+        rule.help.markdown != ""
+      }
+
+      # Helper rule: Checks if the CVSS score is valid
+      has_valid_cvss(rule) {
+        rule.properties.cvssv3_baseScore > 0
+      }

@@ -41,10 +41,10 @@ helm upgrade --install ratify  \
   --set policy.useRego=true \
   --set oras.authProviders.k8secretsEnabled=true \
   --set sbom.enabled=true \
-  --set sbom.notaryProjectSignatureRequired=true
-  # --set sbom.disallowedLicenses={"MPL"} \
-  # --set sbom.maximumAge="24h" \
-  # --set sbom.disallowedPackages[0].name="busybox" \
+  --set sbom.notaryProjectSignatureRequired=true \
+  --set sbom.disallowedLicenses={"MPL"} \
+  --set sbom.maximumAge="24h"
+  # --set sbom.disallowedPackages[0].name={"busybox" \
   # --set sbom.disallowedPackages[0].version="1.30.0"
   # # --set vulnerabilityreport.enabled=true \
   # --set vulnerabilityreport.passthrough=true
