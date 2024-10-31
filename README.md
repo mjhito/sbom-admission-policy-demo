@@ -8,9 +8,6 @@ Currently the only supported format is SPDX v2.3 (JSON).
 
 An SBOM can be generated for operating system dependencies as well as [application dependencies within the image](https://docs.snyk.io/scan-with-snyk/snyk-container/use-snyk-container/detect-application-vulnerabilities-in-container-images)
 
-## Workflow Diagram
-![image](https://github.com/user-attachments/assets/acffd15a-ee39-4a36-9502-7de6d1b0ef1d)
-
 ## Quick Start
 
 ### If you have a cluster
