@@ -1,4 +1,4 @@
-## Software Provenance with Snyk and ORAS
+## Securing the Container Supply Chain with Snyk, ORAS and Gatekeeper (OPA)
 
 This demo showcases how to use [Snyk](snyk.io) sbom test feature alongside [ORAS](oras.land) can be used to automate and ensure auditability and provenance of container build artifacts, by attaching sboms and vulnerability reports as referring artifacts to container images. Additionally, when storing our sboms and vulnerability scan results as artifacts in an OCI-compliant registry, we can use kubernetes admission controllers, defined by Gatekeeper (OPA) and Ratify to ensure that only images with valid SBOM's/Vulnerability Scans are deployed to a Kubernetes environments. Finally, storing sboms and vulnerability scan results, as well as the container image itself in our registry makes it the single source of truth for our software provenance artifacts, easing regulatory compliance and data-retention concerns.
 
