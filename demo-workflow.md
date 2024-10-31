@@ -1,54 +1,47 @@
 # Demo workflow
 
-## Prereqs
-
-TODO
-
-## Worflow
-
-### Build the Image
+## Build the Image
 
 ```bash
-docker build -t $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64 . --push
+docker build -t $REGISTRY_USERNAME/snyk-juice-shop:v1.0.3 --platform=linux/amd64 . --push
 ```
 
-### Test the Image
+## Test the Image
 
 ```bash
-snyk container test $REGISTRY_USERNAME/snyk-juice-shop:linux-amd64 --platform=linux/amd64
+snyk container test $REGISTRY_USERNAME/snyk-juice-shop:v1.0.3 --platform=linux/amd64 --sarif-file-output=snyk-sarif.json
 ```
 
-### Create an SBOM
+## Create an SBOM
 
 ```bash
-snyk container sbom $REGISTRY_USERNAME/snyk-juice-shop:linux-am64 --format=spdx2.3+json > bom.spdx.json
+snyk container sbom $REGISTRY_USERNAME/snyk-juice-shop:v1.0.3 --format=spdx2.3+json > bom.spdx.json
 ```
 
-### Attach the SBOM to the image with ORAS
+## Attach the SBOM to the image with ORAS
 
 ```bash
-oras attach \
+oras attach "docker.io/$REGISTRY_USERNAME/snyk-juice-shop:v1.0.3"  \
 --artifact-type application/spdx+json \
-docker.io/"$REGISTRY_USERNAME"/snyk-juice-shop:linux-amd64 \
 bom.spdx.json
 ```
 
-### Inspect the Image
+## Inspect the Image
 
 ```bash
-oras discover docker.io/$REGISTRY_USERNAME/snyk-juice-shop:linux-amd64
+oras discover docker.io/$REGISTRY_USERNAME/snyk-juice-shop:v1.0.3
 ```
 
-### Pull the SBOM
+## Pull the SBOM to /artifacts dir
 
 ```bash
-oras pull docker.io/$REGISTRY_USERNAME/snyk-juice-shop@$SBOM_SHA
+oras pull docker.io/$REGISTRY_USERNAME/snyk-juice-shop@$SBOM_SHA -o ./artifacts
 ```
 
-### Run the verified deployment
+## Run the verified deployment
 
 ```bash
-kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:linux-amd64
+kubectl run verified -n sbom-demo --image=iuriikogan/snyk-juice-shop:v1.0.3
 ```
 
 Expected Output: `pod/verified created`
@@ -83,7 +76,7 @@ Show logs on Ratify pod in Gatekeeper-System namespace
 }
 ```
 
-### Run the unverified deployment
+## Run the unverified deployment
 
 ```bash
 kubectl run unverified -n sbom-demo --image=iuriikogan/unverified:latest
