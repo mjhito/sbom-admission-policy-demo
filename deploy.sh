@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Exit the script on any error, unset variable, or command failure in a pipeline.
-set -ou pipefail
+set -o errexit -o nounset -o pipefail
 IFS=$'\t\n'
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash deploy.sh [--kind] [--demo] [--all]"
+    echo "Usage: bash deploy.sh [--kind] [--demo] [--all] [--artifactory]"
     echo "$*"
     exit 1
 }
@@ -18,7 +18,7 @@ function handle_error {
     exit 1
 }
 
-SPINNER_PID=:-
+SPINNER_PID=""
 
 # Trap any error and call the handle_error function
 trap 'handle_error $LINENO' ERR
@@ -121,9 +121,7 @@ if $deploy_kind; then
         echo "Error: ./scripts/deploy-kind.sh script is missing."
         exit 1
     fi
-
     . ./scripts/deploy-kind.sh
-
 fi
 
 # Deploy the demo if the flag is set
@@ -136,24 +134,7 @@ if $deploy_demo; then
     start_spinner
 
     . ./scripts/deploy-demo.sh
-    # kubectl create -f manifests/resources/gatekeeper/gatekeeper-vulns-constraint.yaml ## hack to wait for crds
-    # kubectl create -f manifests/resources/demo/ 
 
     # Stop spinner
     stop_spinner
 fi
-
-# # Deploy Artifactory if the flag is set
-# if $deploy_artifactory; then
-#     if [[ ! -f "./scripts/deploy-artifactory.sh" ]]; then
-#         echo "Error: ./scripts/deploy-artifactory.sh script is missing."
-#         exit 1
-#     fi
-#     # Start spinner
-#     start_spinner
-
-#     . ./scripts/deploy-artifactory.sh
-
-#     # Stop spinner
-#     stop_spinner
-# fi
