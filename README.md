@@ -111,13 +111,11 @@ ORAS leverages OCI artifact support to store SBOMs alongside container images wi
  
 ## Why Should I integrate SBOMs into my container deployment pipelines/enforce SBOMs via policy?
 
-Integrating SBOMs into your container deployment pipelines ensures that every image has passed critical security and compliance checks. With tools like ORAS, you can attach SBOMs directly to your OCI images, enabling automated verification before deployment. This helps identify vulnerabilities early, protects against attacks, and provides an auditable trail that demonstrates compliance during security audits.
+Integrating SBOMs into your container deployment pipelines ensures that every image has a record of its composition for compliance checks. With tools like ORAS, you can attach SBOMs directly to your OCI images, enabling automated verification before deployment. This provides an auditable trail that demonstrates compliance during security audits.
 
 ## What is ORAS?
 
-[ORAS](https://oras.land) (OCI Registry As Storage) is an open-source project that allows users to store various types of artifacts—beyond just container images—in OCI-compliant registries. ORAS enables developers to attach additional metadata, such as SBOMs, signatures, or documentation, directly to container images by leveraging the OCI Artifact standard. This makes ORAS a powerful tool for managing software artifacts throughout the entire development and deployment lifecycle.
-
-By supporting the attachment of SBOMs as OCI artifacts, ORAS makes it easier for organizations to maintain transparency and security across their software supply chain. This simplifies SBOM management, ensuring that the artifacts and images stored in registries have all relevant metadata in place, enhancing compliance and operational resilience.
+[ORAS](https://oras.land) (OCI Registry As Storage) is an open-source project that allows users to store various types of artifacts—beyond just container images—in OCI-compliant registries. ORAS enables developers to attach additional metadata, such as SBOMs, signatures, or vulnerability scans, directly to container images by leveraging the OCI Artifact standard. This simplifies SBOM management, ensuring that the artifacts and images stored in registries have all relevant metadata in place, enhancing compliance and operational resilience.
 
 ## What is Gatekeeper?
 
@@ -141,7 +139,3 @@ Ensure the following tools are installed:
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [helm](https://helm.sh/docs/intro/install/)
-  
-## Limitations
-
-TODO
