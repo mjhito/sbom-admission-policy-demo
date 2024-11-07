@@ -139,3 +139,7 @@ Ensure the following tools are installed:
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [helm](https://helm.sh/docs/intro/install/)
+
+  ## Resources
+  
+  [Demo Workflow](demo-workflow.md)
