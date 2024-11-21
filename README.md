@@ -102,7 +102,7 @@ vi setenv.sh
 
 ## Why should I care about SBOMs?
 
-Software Bill of Materials (SBOMs) provide detailed insights into the components within software, offering transparency and accountability. As regulatory frameworks like the NIS Directive (Network and Information Systems) in Europe, the Digital Operational Resilience Act (DORA), and various cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses in regulated sectors.
+Software Bill of Materials (SBOMs) provide detailed insights into the components within software, offering transparency and accountability. As regulatory frameworks like the Cyber Resilience Act in Europe, the Digital Operational Resilience Act (DORA), and various cybersecurity standards grow increasingly stringent, ensuring compliance is critical for businesses in regulated sectors.
 
 ORAS (OCI Registry As Storage) simplifies SBOM management by allowing SBOMs to be attached directly to OCI container images as artifacts. This enables seamless integration of SBOMs into the software supply chain, ensuring that each image includes a verifiable record of its components. By associating SBOMs with images and enforcing policies that only permit the deployment of images containing SBOMs.
 
