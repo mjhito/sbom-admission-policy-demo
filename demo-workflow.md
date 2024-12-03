@@ -3,7 +3,7 @@
 ## Build the Image
 
 ```bash
-docker build -t $REGISTRY_USERNAME/snyk-juice-shop:v1.0.3 --platform=linux/amd64 . --push
+docker build -t $REGISTRY_USERNAME snyk-juice-shop:v1.0.3 --platform=linux/amd64 . --push
 ```
 
 ## Test the Image
