@@ -1,1 +1,1 @@
-FROM --platform=linux/amd64 node:latest
+FROM --platform=linux/amd64 node:25.9.0-bookworm
