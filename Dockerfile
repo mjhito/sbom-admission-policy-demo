@@ -1,1 +1,1 @@
-FROM --platform=linux/amd64 node:latest
+FROM --platform=linux/amd64 node:26.1.0-trixie
